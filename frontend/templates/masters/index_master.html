@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from wpocean.com/html/tf/loveme/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 08 Apr 2024 05:34:00 GMT -->
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="wpOceans">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png'%}">
+    <title>
+    EpicNuptials -
+        {% block title %}
+        {% endblock title %}
+    </title>
+    <link href="{% static 'css/themify-icons.css'%}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/flaticon.css'%}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/animate.css'%}" rel="stylesheet">
+    <link href="{% static 'css/owl.carousel.css'%}" rel="stylesheet">
+    <link href="{% static 'css/owl.theme.css'%}" rel="stylesheet">
+    <link href="{% static 'css/slick.css'%}" rel="stylesheet">
+    <link href="{% static 'css/slick-theme.css'%}" rel="stylesheet">
+    <link href="{% static 'css/swiper.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/nice-select.css'%}" rel="stylesheet">
+    <link href="{% static 'css/owl.transitions.css'%}" rel="stylesheet">
+    <link href="{% static 'css/jquery.fancybox.css'%}" rel="stylesheet">
+    <link href="{% static 'css/odometer-theme-default.css'%}" rel="stylesheet">
+    <link href="{% static 'css/style.css'%}" rel="stylesheet">
+    <link href="{% static 'css/auth-pages.css'%}" rel="stylesheet">
+</head>
+
+
+<body>
+
+    <!-- start page-wrapper -->
+    <div class="page-wrapper">
+        
+
+        {% include "preloader/preloader.html"%}
+
+
+        {% include "header/header.html"%}
+
+
+        {% block body %}
+        {% endblock body %}
+
+        {% include 'footer/footer.html'%}
+
+        {% include "color_switcher/color_switcher.html" %}
+
+    </div>
+    <!-- end of page-wrapper -->
+
+    <!-- All JavaScript files
+    ================================================== -->
+    <script src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+    <!-- Plugins for this template -->
+    <script src="{% static 'js/modernizr.custom.js'%}"></script>
+    <script src="{% static 'js/jquery.dlmenu.js'%}"></script>
+    <script src="{% static 'js/jquery-plugin-collection.js'%}"></script>
+    <!-- Custom script for this template -->
+    <script src="{% static 'js/script.js'%}"></script>
+</body>
+
+
+<!-- Mirrored from wpocean.com/html/tf/loveme/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 08 Apr 2024 05:34:28 GMT -->
+</html>

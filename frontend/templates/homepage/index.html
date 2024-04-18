@@ -1,0 +1,160 @@
+{% extends "masters/index_master.html" %}
+
+{% block title %}
+    Wedding Planner
+{% endblock title %}
+{% load static %}
+
+{% block body %}
+<section class="wpo-hero-slider">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="slide-inner slide-bg-image" data-background="{% static 'images/slider/slide-1.jpg'%}">
+                    <!-- <div class="gradient-overlay"></div> -->
+                    <div class="container-fluid">
+                        <div class="slide-content">
+                            <div data-swiper-parallax="300" class="slide-title">
+                                <h2>Our DREAMY Love</h2>
+                            </div>
+                            <div data-swiper-parallax="400" class="slide-text">
+                                <p>Welcome and open yourself to your truest love this year with us! With the
+                                    Release Process</p>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div data-swiper-parallax="500" class="slide-btns">
+                                <a href="about.html" class="theme-btn">Discover More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end slide-inner -->
+            </div> <!-- end swiper-slide -->
+
+            <div class="swiper-slide">
+                <div class="slide-inner slide-bg-image" data-background="{% static 'images/slider/slide-2.jpg'%}">
+                    <!-- <div class="gradient-overlay"></div> -->
+                    <div class="container-fluid">
+                        <div class="slide-content">
+                            <div data-swiper-parallax="300" class="slide-title">
+                                <h2>Our DREAMY Love</h2>
+                            </div>
+                            <div data-swiper-parallax="400" class="slide-text">
+                                <p>Welcome and open yourself to your truest love this year with us! With the
+                                    Release Process</p>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div data-swiper-parallax="500" class="slide-btns">
+                                <a href="about.html" class="theme-btn">Discover More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end slide-inner -->
+            </div> <!-- end swiper-slide -->
+
+            <div class="swiper-slide">
+                <div class="slide-inner slide-bg-image" data-background="{% static 'images/slider/slide-3.jpg'%}">
+                    <!-- <div class="gradient-overlay"></div> -->
+                    <div class="container-fluid">
+                        <div class="slide-content">
+                            <div data-swiper-parallax="300" class="slide-title">
+                                <h2>Our DREAMY Love</h2>
+                            </div>
+                            <div data-swiper-parallax="400" class="slide-text">
+                                <p>Welcome and open yourself to your truest love this year with us! With the
+                                    Release Process</p>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div data-swiper-parallax="500" class="slide-btns">
+                                <a href="about.html" class="theme-btn">Discover More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end slide-inner -->
+            </div> <!-- end swiper-slide -->
+        </div>
+        <!-- end swiper-wrapper -->
+
+        <!-- swipper controls -->
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</section>
+
+
+{% include "partners/partners.html"%}
+
+
+<!-- start wpo-service-section -->
+{% include "services/services.html"%}
+<!-- end wpo-service-section-->
+
+
+<!-- start wpo-video-section -->
+{% include "video_section/celebrating_love.html"%}
+<!-- end wpo-video-section-->
+
+
+<!-- start wpo-fun-fact-section -->
+{% include "fun_fact/fun_fact.html"%}
+<!-- end wpo-fun-fact-section -->
+
+
+<!-- start wpo-portfolio-section -->
+{% include 'portfolio/portfolio.html'%}
+<!-- end wpo-portfolio-section -->
+
+
+<!-- start wpo-testimonials-section -->
+{% include "testimonials/testimonials.html"%}
+<!-- end wpo-testimonials-section -->
+
+
+<!-- start wpo-product-section -->
+{% include "product_section/product_section.html"%}
+<!-- end wpo-product-section -->
+
+<!-- start wpo-cta-section -->
+
+<div class="wpo-cta-section">
+    <div class="conatiner-fluid">
+        <div class="wpo-cta-item">
+            <span><img src="{% static 'images/cta/1.png'%}" alt=""></span>
+            <h2>Lets Celebrate Your Love</h2>
+            <a class="theme-btn-s2" href="{% url 'contact'%}">Contact Us</a>
+        </div>
+    </div>
+</div>
+
+<!-- end wpo-cta-section -->
+
+
+
+
+
+<!-- start wpo-pricing-section -->
+{% include "packages/packages.html"%}
+<!-- start wpo-pricing-section -->
+
+
+
+ <!-- start wpo-banner-section -->
+<section class="wpo-banner-section">
+    <h4>There is only one happiness in this life, to love and be loved</h4>
+</section>
+<!-- end wpo-banner-section -->
+
+<!-- start of wpo-contact-section -->
+{% include 'contact_form/contact_form.html'%}
+<!-- end of wpo-contact-section -->
+
+
+<!-- start wpo-blog-section -->
+{% include 'blogs/blogs-inc.html'%}
+<!-- end wpo-blog-section -->
+
+
+
+
+
+{% endblock body %}

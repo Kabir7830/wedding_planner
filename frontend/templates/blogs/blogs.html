@@ -1,0 +1,74 @@
+{% extends "masters/index_master.html"%}
+
+{% block title%}
+    Blogs
+{% endblock title%}
+
+{% load static %}
+
+{% block body%}
+<section class="wpo-blog-section section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="wpo-section-title">
+                <span>News</span>
+                <h2>From Our Blog</h2>
+                <div class="section-title-img">
+                    <img src="{% static 'images/section-title.png'%}" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="wpo-blog-items">
+            <div class="row">
+                <div class="col col-lg-4 col-md-6 col-12">
+                    <div class="wpo-blog-item">
+                        <div class="wpo-blog-img">
+                            <img src="{% static 'images/blog/img-1.jpg'%}" alt="">
+                        </div>
+                        <div class="wpo-blog-content">
+                            <ul>
+                                <li>By <a href="blog-single.html">Loura Sweety</a></li>
+                                <li>25 Sep 2021</li>
+                            </ul>
+                            <h2><a href="blog.html">Best wedding gift you may
+                                    like & choose.</a>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-lg-4 col-md-6 col-12">
+                    <div class="wpo-blog-item">
+                        <div class="wpo-blog-img">
+                            <img src="{% static 'images/blog/img-2.jpg'%}" alt="">
+                        </div>
+                        <div class="wpo-blog-content">
+                            <ul>
+                                <li>By <a href="blog-single.html">David Luis</a></li>
+                                <li>23 Sep 2021</li>
+                            </ul>
+                            <h2><a href="blog.html">Photography is the important part of wedding.</a>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-lg-4 col-md-6 col-12">
+                    <div class="wpo-blog-item">
+                        <div class="wpo-blog-img">
+                            <img src="{% static 'images/blog/img-3.jpg'%}" alt="">
+                        </div>
+                        <div class="wpo-blog-content">
+                            <ul>
+                                <li>By <a href="blog-single.html">Aliana de</a></li>
+                                <li>21 Sep 2021</li>
+                            </ul>
+                            <h2><a href="blog.html">Top 10 wedding fresh flower decoration idea.</a>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- end container -->
+</section>
+{% endblock body%}
