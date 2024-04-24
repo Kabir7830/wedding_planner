@@ -61,8 +61,8 @@
                                 <button class="menu-close"><i class="ti-close"></i></button>
                                 <ul class="nav navbar-nav mb-2 mb-lg-0">
                                     <li class="menu-item-has-children">
-                                        <a class="active" href="#">Home</a>
-                                        <ul class="sub-menu">
+                                        <a class="active" href="{% url 'homepage'%}">Home</a>
+                                        {% comment %} <ul class="sub-menu">
                                             <li><a class="active" href="index.html">Main Home</a></li>
                                             <li><a href="index-2.html">Wedding Planner</a></li>
                                             <li><a href="index-3.html">Announcement S1</a></li>
@@ -70,7 +70,7 @@
                                             <li><a href="index-5.html">Wedding Home</a></li>
                                             <li><a href="index-7.html">Shop Home</a></li>
                                             <li><a href="index-6.html">Invitation</a></li>
-                                        </ul>
+                                        </ul> {% endcomment %}
                                     </li>
                                     <li class="menu-item-has-children">
                                         <a href="#">Pages</a>
@@ -142,6 +142,20 @@
                                         </ul>
                                     </li>
                                     <li><a href="contact.html">Contact</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#">Account</a>
+                                        <ul class="sub-menu">
+                                            {% if user.is_authenticated %}
+                                            <li><a class="active" href="{% url 'logout' %}">Logout</a></li>
+                                            {% else %}
+                                            <li><a class="active" href="{% url 'login' %}">Login</a></li>
+                                            <li><a href="{% url 'register' %}">Signup</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </li>
+                                    {% if request.user.is_superuser %}
+                                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                                    {% endif %}
                                 </ul>
 
                             </div><!-- end of nav-collapse -->

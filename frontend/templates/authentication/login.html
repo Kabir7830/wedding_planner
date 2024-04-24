@@ -7,12 +7,21 @@
 {% load static %}
 
 {% block body%}
+<style>
+    .message.success{
+        color: green;
+    }
+    .message.error{
+        color: red;
+    }
+</style>
 
 <div class="wpo-login-area">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="wpo-accountWrapper" action="#">
+                    <form class="wpo-accountWrapper">
+                        {% csrf_token %}
                         <div class="wpo-accountInfo">
                             <div class="wpo-accountInfoHeader">
                                 <a href="#"><img src="{% static 'images/logo-2.png'%}" alt=""></a>
@@ -37,12 +46,12 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-12">
                                     <label>Email</label>
-                                    <input type="text" id="email" name="email" placeholder="demo@gmail.com">
+                                    <input type="text" id="id_email" name="email" placeholder="demo@gmail.com">
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-12">
                                     <div class="form-group">
                                         <label >Password</label>
-                                        <input class="pwd6" type="password" placeholder=""  value="123456" name="pass">
+                                        <input class="pwd6" type="password" placeholder="******" name="pass" id="id_password">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default reveal6" type="button"><i class="fa fa-eye"></i></button>
                                         </span>
@@ -60,7 +69,11 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-12">
-                                    <button type="submit" class="wpo-accountBtn">Login</button>
+                                    <button type="button" class="wpo-accountBtn" onclick="handleLogin()">Login</button>
+                                </div>
+                                <div>
+                                    <p class="message success visually-hidden" id="id_message_success">This is mesage</p>
+                                    <p class="message error visually-hidden" id="id_message_error">This is mesage</p>
                                 </div>
                             </div>
                             <h4 class="or"><span>OR</span></h4>
@@ -76,5 +89,56 @@
             </div>
         </div>
     </div>
+
+    {% block scripts%}
+    <script src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+    <!-- Plugins for this template -->
+    <script src="{% static 'js/modernizr.custom.js'%}"></script>
+    <script src="{% static 'js/jquery.dlmenu.js'%}"></script>
+    <script src="{% static 'js/jquery-plugin-collection.js'%}"></script>
+    <!-- Custom script for this template -->
+    <script src="{% static 'js/script.js'%}"></script>
+    {% endblock scripts%}
+    <script>
+        var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+        let success_message = document.getElementById('id_message_success');
+        let success_error = document.getElementById('id_message_error');
+        function handleLogin(){
+            let postData = {
+                "email":document.getElementById('id_email').value,
+                "password":document.getElementById('id_password').value
+            }
+            $.ajax({
+                url:"{% url 'login' %}",
+                type:"POST",
+                contentType:"application/json",
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                data:JSON.stringify(postData),
+                success:function(data){
+                    console.log(data);
+                    if (data['status'] == 'success'){
+
+                        success_error.classList.add('visually-hidden');
+                        success_message.classList.remove('visually-hidden');
+                        success_message.innerHTML = data['message'];
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else if (data['status'] == 'error'){
+                        success_error.classList.remove('visually-hidden');
+                        success_message.classList.add('visually-hidden');
+                        success_error.innerHTML = data['message'];
+                    } 
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error('AJAX error:', errorThrown);
+                }
+            })
+        }
+    </script>
 
 {% endblock body%}
