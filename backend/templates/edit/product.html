@@ -92,7 +92,7 @@
 <div class="add-product-section-43264">
 <div class="container">
 <h2>Product Form</h2>
-<form action="{%url 'edit-product' product_id=product.id %}" method="post" enctype="multipart/form-data">
+<form action="{%url 'admin-edit-product' product_id=product.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="name">Name:</label><br>
     <input type="text" id="name" name="name" value="{{product.name}}"><br>
@@ -109,11 +109,11 @@
         {% endfor %}
     </select>
 
-    <label for="cost_price">Cost Price:</label><br>
-    <input type="text" id="cost_price" name="cost_price" value="{{product.cost_price}}" required><br>
+    <label for="cost_price">Cost Price ($):</label><br>
+    <input type="text" id="cost_price" name="compare_at_price" value="{{product.compare_at_price}}" required><br>
 
-    <label for="selling_price">Selling Price:</label><br>
-    <input type="text" id="selling_price" name="selling_price" value="{{product.selling_price}}" required><br>
+    <label for="selling_price">Selling Price ($):</label><br>
+    <input type="text" id="selling_price" name="price" value="{{product.price}}" required><br>
 
     <label for="short_description">Short Description:</label><br>
     <textarea id="short_description" name="short_description" rows="4">{{product.short_description | safe}}</textarea><br>
@@ -121,38 +121,22 @@
     <label for="description">Description:</label><br>
     <textarea id="description" name="description" rows="8" >{{product.description | safe}}</textarea><br>
 
+    <label for="tags">Tags:</label><br>
+    <input type="text" id="id_tags" name="tags" value="{{product.tags}}"><br>
+
+    <label for="slug">Slug:</label><br>
+    <input type="text" id="id_slug" name="slug" value="{{product.slug}}"><br>
+
     <label for="image">Image:</label><br>
     <input type="file" id="images" name="images" accept="image/*" multiple onchange="previewImages(event)"><br>
 
         <div class="preview-container" id="previewContainer">
 
-                {% for image in images %}
-                  <img src="/media/{{image.image}}" alt="image" class="image-preview">
-                {% endfor %}
+                
+                  <img src="/media/{{product.images}}" alt="image" class="image-preview">
+                
         </div>
 
-        <label for="is_best_selling">Include in Best Selling?</label>
-        <select name="is_best_selling" id="is_best_selling">
-        {% if product.is_best_selling %}
-        <option value="True" selected>Yes</option>
-        <option value="False">No</option>
-        {%else%}
-        <option value="True">Yes</option>
-        <option value="False" selected>No</option>
-        {% endif %}
-    </select>
-      
-
-    <label for="is_new_arrival">New Arrival</label>
-    <select name="is_new_arrival" id="is_new_arrival">
-        {% if product.is_new_arrival %}
-        <option value="True" selected>Yes</option>
-        <option value="False">No</option>
-        {%else%}
-        <option value="True">Yes</option>
-        <option value="False" selected>No</option>
-        {% endif %}
-    </select>
 
     <label for="is_published">Publish:</label><br>
     <select name="is_published" id="is_published">

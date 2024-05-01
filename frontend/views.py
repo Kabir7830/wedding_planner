@@ -3,12 +3,13 @@ from django.contrib.auth import login,logout,authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-
+from backend .models import *
 User = get_user_model()
 
 
 def homepage(request):
-    return render(request,"homepage/index.html")
+    special_products = Products.objects.filter(is_published = True).order_by('-id')[:8]
+    return render(request,"homepage/index.html",{"special_products":special_products})
 
 
 def about_us(request):

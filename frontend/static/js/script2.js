@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });*/
 
   feather.replace();
-
+// 
   (function () {
     var sidebar = document.querySelector('.sidebar'),
         catSubMenu = document.querySelector('.cat-sub-menu'),

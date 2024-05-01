@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager,AbstractUser
+from django.utils.text import slugify
 
 
 class CustomUserManager(BaseUserManager):
@@ -43,7 +44,34 @@ class Accommodation(models.Model):
   name = models.CharField(max_length=255)
   description = models.TextField()
   image = models.ImageField(upload_to='accommodations/')
+  slug = models.SlugField(blank=True)  # Ensure unique slugs and allow blank
 
+  def save(self, *args, **kwargs):
+      if not self.slug:  # If slug is not set
+          self.slug = slugify(self.title)  # Generate slug from title
+      super().save(*args, **kwargs)
+      
+      
+
+class Dining(models.Model):
+  
+  id = models.BigAutoField(primary_key=True)
+  name = models.CharField(max_length=255)
+  description = models.TextField()
+  image = models.ImageField(upload_to='dining/')
+  price_less_500 = models.CharField(max_length=100, null=True,blank=True)
+  price_500 = models.CharField(max_length=100, null=True,blank=True)
+  price_1000 = models.CharField(max_length=100, null=True,blank=True)
+  price_1500 = models.CharField(max_length=100, null=True,blank=True)
+  price_2000_plus = models.CharField(max_length=100, null=True,blank=True)
+  slug = models.SlugField(blank=True)  # Ensure unique slugs and allow blank
+
+  def save(self, *args, **kwargs):
+      if not self.slug:  # If slug is not set
+          self.slug = slugify(self.title)  # Generate slug from title
+      super().save(*args, **kwargs)
+      
+      
 class Destination(models.Model):
   id = models.AutoField(primary_key=True)
   name = models.CharField(max_length=255)
@@ -54,7 +82,14 @@ class Destination(models.Model):
   price_1000 = models.DecimalField(max_digits=10, decimal_places=2)
   price_1500 = models.DecimalField(max_digits=10, decimal_places=2)
   price_2500_plus = models.DecimalField(max_digits=10, decimal_places=2)
+  slug = models.SlugField(blank=True)  # Ensure unique slugs and allow blank
 
+  def save(self, *args, **kwargs):
+      if not self.slug:  # If slug is not set
+          self.slug = slugify(self.title)  # Generate slug from title
+      super().save(*args, **kwargs)
+      
+      
   class Meta:
     db_table = 'destination'
 
@@ -63,7 +98,14 @@ class Menu(models.Model):
   name = models.CharField(max_length=255)
   type = models.CharField(max_length=255)
   price_per_person = models.DecimalField(max_digits=10, decimal_places=2)
+  slug = models.SlugField(blank=True)  # Ensure unique slugs and allow blank
 
+  def save(self, *args, **kwargs):
+      if not self.slug:  # If slug is not set
+          self.slug = slugify(self.title)  # Generate slug from title
+      super().save(*args, **kwargs)
+      
+      
   class Meta:
     db_table = 'menu'
 
@@ -72,7 +114,14 @@ class Decoration(models.Model):
   name = models.CharField(max_length=255)
   description = models.TextField()
   price = models.DecimalField(max_digits=10, decimal_places=2)
+  slug = models.SlugField(blank=True)  # Ensure unique slugs and allow blank
 
+  def save(self, *args, **kwargs):
+      if not self.slug:  # If slug is not set
+          self.slug = slugify(self.title)  # Generate slug from title
+      super().save(*args, **kwargs)
+      
+      
   class Meta:
     db_table = 'decoration'
 
@@ -81,7 +130,14 @@ class Entertainment(models.Model):
   name = models.CharField(max_length=255)
   description = models.TextField()
   price = models.DecimalField(max_digits=10, decimal_places=2)
+  slug = models.SlugField(blank=True)  # Ensure unique slugs and allow blank
 
+  def save(self, *args, **kwargs):
+      if not self.slug:  # If slug is not set
+          self.slug = slugify(self.title)  # Generate slug from title
+      super().save(*args, **kwargs)
+      
+      
   class Meta:
     db_table = 'entertainment'
 
@@ -89,8 +145,15 @@ class Extra(models.Model):  # This model represents anything that can be extra
   id = models.AutoField(primary_key=True)
   name = models.CharField(max_length=255)
   description = models.TextField()
+  type = models.CharField(max_length=255)
   price = models.DecimalField(max_digits=10, decimal_places=2)
+  slug = models.SlugField(blank=True)  # Ensure unique slugs and allow blank
 
+  def save(self, *args, **kwargs):
+      if not self.slug:  # If slug is not set
+          self.slug = slugify(self.title)  # Generate slug from title
+      super().save(*args, **kwargs)
+      
   class Meta:
      db_table = "extras"
 
@@ -119,7 +182,14 @@ class ProductCategory(models.Model):
       db_table = "product_categories"
     
   name = models.CharField(max_length=255)
+  slug = models.SlugField(blank=True)  # Ensure unique slugs and allow blank
 
+  def save(self, *args, **kwargs):
+      if not self.slug:  # If slug is not set
+          self.slug = slugify(self.title)  # Generate slug from title
+      super().save(*args, **kwargs)
+      
+      
 class Products(models.Model):
   class Meta:
       db_table = "products"
@@ -131,8 +201,16 @@ class Products(models.Model):
   compare_at_price = models.CharField(max_length=100,null=True,blank=True)
   short_description = models.CharField(max_length=255,null=True,blank=True)
   description = models.TextField()
-  images = models.CharField(max_length=255,null=True,blank=True)
+  images = models.ImageField(upload_to='products/')
+  is_published = models.BooleanField(default=True,null=True,blank=True)
 
+  slug = models.SlugField(unique=True,blank=True)  # Ensure unique slugs and allow blank
+
+  def save(self, *args, **kwargs):
+      if not self.slug:  # If slug is not set
+          self.slug = slugify(self.title)  # Generate slug from title
+      super().save(*args, **kwargs)
+  
 
 class Content(models.Model):
   class Meta:

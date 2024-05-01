@@ -8,11 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
-    {% if company %}
-    {{company.name}} 
-    {%else%}
-    Electronic      
-    {% endif %}
+    EpicNuptials
       | {% block title %}
       {% endblock title %}
   </title>
@@ -194,6 +190,11 @@
 </head>
 
 <body>
+    {% for message in messages%}
+    <div>
+        {{message}}
+    </div>
+    {% endfor %}
     <div class="layer"></div>
     <!-- ! Body -->
     <a class="skip-link sr-only" href="#skip-target">Skip to content</a>
@@ -208,11 +209,9 @@
                     <img src="/media/{{company.logo}}" alt="">
                 </div>
                 <div class="logo-text">
-                    <span class="logo-title">{% if company.name %}
-                      {{company.name}}
-                      {%else%}
-                      Nursery
-                    {% endif %}</span>
+                    <span class="logo-title">
+                        EpicNuptials
+                </span>
                     <span class="logo-subtitle">Dashboard</span>
                 </div>
 
@@ -231,10 +230,10 @@
                     <a href="/"><span class="icon home" aria-hidden="true"></span>Home</a>
                 </li>
                 <li>
-                    <a href="#" data-active-url="#"><span class="icon home" aria-hidden="true"></span>Categories</a>
+                    <a href="{% url 'admin-all-categories' %}" data-active-url="{% url 'admin-all-categories' %}"><span class="icon home" aria-hidden="true"></span>Categories</a>
                 </li>
                 <li>
-                    <a class="show-cat-btn" href="##" data-active-url="#" data-active-url-add="#">
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-products' %}" data-active-url-add="{% url 'admin-add-product' %}">
                         <span class="icon folder" aria-hidden="true"></span>Products
                         <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -243,10 +242,10 @@
                     </a>
                     <ul class="cat-sub-menu">
                         <li>
-                            <a href="#" data-active-url="#">All Products</a>
+                            <a href="{% url 'admin-all-products' %}" data-active-url="{% url 'admin-all-products' %}">All Products</a>
                         </li>
                         <li>
-                            <a href="#" data-active-url="#">Add Product</a>
+                            <a href="{% url 'admin-add-product' %}" data-active-url="{% url 'admin-add-product' %}">Add Product</a>
                         </li>
                     </ul>
                 </li>
