@@ -7,7 +7,19 @@
 {% endblock title%}
 
 {% block body %}
+<style>
+    #id_success{
+        color: green;
+    }
+    #id_error{
+        color: red;
+    }
+    .visually-hidden{
+        display: none !important;
+    }
+</style>
 <!-- start wpo-page-title -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha512-DUC8yqWf7ez3JD1jszxCWSVB0DMP78eOyBpMa5aJki1bIRARykviOuImIczkxlj1KhVSyS16w2FSQetkD4UU2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <section class="wpo-page-title">
     <div class="container">
         <div class="row">
@@ -82,40 +94,90 @@
                 </div>
                 <div class="wpo-contact-form-area">
                     <form method="post" class="contact-validation-active" id="contact-form-main">
+                        {% csrf_token %}
                         <div>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Your Name*">
+                            <input type="text" class="form-control" name="name" id="id_name" placeholder="Your Name*">
                         </div>
                         <div>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email*">
+                            <input type="email" class="form-control" name="email" id="id_email" placeholder="Your Email*">
                         </div>
                         <div>
-                            <input type="text" class="form-control" name="adress" id="adress" placeholder="Adress">
+                            <input type="text" class="form-control" name="adress" id="id_address" placeholder="Adress">
                         </div>
                         <div>
-                            <select name="service" class="form-control">
+                            <select name="service" class="form-control" id="id_service">
                                 <option disabled="disabled" selected="">Services</option>
-                                <option>Photography</option>
-                                <option>The Rehearsal Dinner</option>
-                                <option>The Afterparty</option>
-                                <option>Videographers</option>
-                                <option>Perfect Cake</option>
-                                <option>All Of The Above</option>
+                                <option value="photography">Photography</option>
+                                <option value="dining">The Rehearsal Dinner</option>
+                                <option value="afterparty">The Afterparty</option>
+                                <option value="videography">Videographers</option>
+                                <option value="perfect cake">Perfect Cake</option>
+                                <option value="all">All Of The Above</option>
                             </select>
                         </div>
                         <div class="fullwidth">
-                            <textarea class="form-control" name="note"  id="note" placeholder="Message..."></textarea>
+                            <textarea class="form-control" name="note"  id="id_message" placeholder="Message..."></textarea>
                         </div>
                         <div class="submit-area">
-                            <button type="submit" class="theme-btn-s4">Get in Touch</button>
+                            <button type="button" class="theme-btn-s4" id="id_submit_button" onclick="submitContactForm()">Get in Touch</button>
                             <div id="loader">
                                 <i class="ti-reload"></i>
                             </div>
                         </div>
                         <div class="clearfix error-handling-messages">
-                            <div id="success">Thank you</div>
-                            <div id="error"> Error occurred while sending email. Please try again later. </div>
+                            <div id="id_success" class=" visually-hidden">j</div>
+                            <div id="id_error" class=" visually-hidden">j</div>
                         </div>
                     </form>
+                    <script>
+                    
+                    let submit_button = document.getElementById('id_submit_button');
+                    var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+                    let success_message = document.getElementById('id_success');
+                    let error_message = document.getElementById('id_error');
+                    function submitContactForm(){
+                        let name_field = document.getElementById('id_name');
+                        let email_field = document.getElementById('id_email');
+                        let message_field = document.getElementById('id_message');
+                        let service_field = document.getElementById('id_service');
+                        let address_field= document.getElementById('id_address');
+                        postData = {
+                            "name": name_field.value,
+                            "email":email_field.value,
+                            "message":message_field.value,
+                            "address":address_field.value,
+                            "service":service_field.value,
+                        }
+                        $.ajax({
+                            url:"{% url 'contact'%}",
+                            type:"post",
+                            contentType:"application/json",
+                            beforeSend:function(xhr){
+                                xhr.setRequestHeader("X-CSRFToken",csrftoken)
+                            },
+                            data:JSON.stringify(postData),
+                            success:function(data){
+                                if (data['status']=='success'){
+                                    success_message.classList.remove('visually-hidden')
+                                    success_message.innerHTML = data['message'];
+                                    error_message.classList.add('visually-hidden')
+                                }
+                                else if (data['status'] == 'error'){
+                                    error_message.classList.remove('visually-hidden')
+                                    error_message.innerHTML = data['message'];
+                                    success_message.classList.add('visually-hidden')
+                                    
+                                }
+                            },
+                            error:function(xhr,textStatus,errorThrown){
+                                console.log("AJAX ERROR - ",errorThrown);
+                            }
+                        })
+
+
+                    }
+                    
+                    </script>
                 </div>
             </div>                
         </div>
@@ -130,5 +192,6 @@
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.9147703055!2d-74.11976314309273!3d40.69740344223377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY%2C+USA!5e0!3m2!1sen!2sbd!4v1547528325671" allowfullscreen></iframe>
     </div>
 </section>
+
 <!-- end wpo-contact-map -->
 {% endblock body%}

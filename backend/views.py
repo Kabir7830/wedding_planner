@@ -271,8 +271,4 @@ def DeleteProduct(request,product_id):
 def GetAllProductsAdmin(request):
     if is_admin(request):
         products = Products.objects.all()
-        return render(request,"all/products.html",{"products":products})
-    
-            
-                
-    
+        return render(request,"all/products.html",{"products":products})    

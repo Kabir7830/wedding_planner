@@ -1,5 +1,17 @@
 {% load static %}
-
+<style>
+    #id_success{
+        color: green;
+    }
+    #id_error{
+        color: red;
+    }
+    .visually-hidden{
+        display: none !important;
+    }
+</style>
+<!-- start wpo-page-title -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha512-DUC8yqWf7ez3JD1jszxCWSVB0DMP78eOyBpMa5aJki1bIRARykviOuImIczkxlj1KhVSyS16w2FSQetkD4UU2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <section class="wpo-contact-section section-padding">
     <div class="container">
         <div class="wpo-contact-section-wrapper">
@@ -12,60 +24,112 @@
                     </div>
                 </div>
                 <form method="post" class="contact-validation-active" id="contact-form-main">
+                    {% csrf_token %}
                     <div>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+                        <input type="text" class="form-control" name="name" id="id_name" placeholder="Name">
                     </div>
                     <div>
-                        <input type="email" class="form-control" name="email" id="email"
+                        <input type="email" class="form-control" name="email" id="id_email"
                             placeholder="Email">
                     </div>
                     <div>
-                        <input type="text" class="form-control" name="adress" id="adress"
+                        <input type="text" class="form-control" name="adress" id="id_address"
                             placeholder="Adress">
                     </div>
                     <div>
-                        <select name="service" class="form-control">
-                            <option disabled="disabled" selected>Services</option>
-                            <option>Photography</option>
-                            <option>The Rehearsal Dinner</option>
-                            <option>The Afterparty</option>
-                            <option>Videographers</option>
-                            <option>Perfect Cake</option>
-                            <option>All Of The Above</option>
+                        <select name="service" class="form-control" id="id_service">
+                            <option disabled="disabled" selected="">Services</option>
+                            <option value="photography">Photography</option>
+                            <option value="dining">The Rehearsal Dinner</option>
+                            <option value="afterparty">The Afterparty</option>
+                            <option value="videography">Videographers</option>
+                            <option value="perfect cake">Perfect Cake</option>
+                            <option value="all">All Of The Above</option>
                         </select>
                     </div>
                     <div>
-                        <select name="guest" class="form-control">
+                        <select name="guest" class="form-control" id="id_number_of_guests">
                             <option disabled="disabled" selected>Number Of Guests</option>
-                            <option>01</option>
-                            <option>02</option>
-                            <option>03</option>
-                            <option>04</option>
-                            <option>05</option>
+                            <option value="50-100">50-100</option>
+                            <option value="100-200">100-200</option>
+                            <option value="500-1000">500-1000</option>
+                            <option value="1000-2000">1000-2000</option>
+                            <option value="2000+">2000+</option>
                         </select>
                     </div>
                     <div>
-                        <select name="meal" class="form-control last">
+                        <select name="meal" class="form-control last" id="id_meal_preferences">
                             <option disabled="disabled" selected>Meal Preferences</option>
-                            <option>Chicken Soup</option>
-                            <option>Motton Kabab</option>
-                            <option>Chicken BBQ</option>
-                            <option>Mix Salad</option>
-                            <option>Beef Ribs </option>
+                            <option value="chicken soup">Chicken Soup</option>
+                            <option value="Motton kaba">Motton Kabab</option>
+                            <option value="chicken bbq">Chicken BBQ</option>
+                            <option value="mix salad">Mix Salad</option>
+                            <option value="beef ribs">Beef Ribs </option>
                         </select>
                     </div>
                     <div class="submit-area">
-                        <button type="submit" class="theme-btn-s3">Send An Inquiry</button>
+                        <button type="button" class="theme-btn-s3" id="id_submit_button" onclick="submitContactForm()">Send An Inquiry</button>
                         <div id="c-loader">
                             <i class="ti-reload"></i>
                         </div>
                     </div>
                     <div class="clearfix error-handling-messages">
-                        <div id="success">Thank you</div>
-                        <div id="error"> Error occurred while sending email. Please try again later.
+                        <div id="id_success" class="visually-hidden"></div>
+                        <div id="id_error" class="visually-hidden">
                         </div>
                     </div>
                 </form>
+                <script>
+                    
+                    let submit_button = document.getElementById('id_submit_button');
+                    var csrftoken = $('input[name="csrfmiddlewaretoken"]').val();
+                    let success_message = document.getElementById('id_success');
+                    let error_message = document.getElementById('id_error');
+                    function submitContactForm(){
+                        let name_field = document.getElementById('id_name');
+                        let email_field = document.getElementById('id_email');
+                        let service_field = document.getElementById('id_service');
+                        let address_field= document.getElementById('id_address');
+                        let meal_preferences_fields = document.getElementById('id_meal_preferences');
+                        let number_of_guests = document.getElementById('id_number_of_guests');
+                        postData = {
+                            "name": name_field.value,
+                            "email":email_field.value,
+                            "address":address_field.value,
+                            "service":service_field.value,
+                            "meal_preferences":meal_preferences_fields.value,
+                            "number_of_guests":number_of_guests.value,
+                        }
+                        $.ajax({
+                            url:"{% url 'contact'%}",
+                            type:"post",
+                            contentType:"application/json",
+                            beforeSend:function(xhr){
+                                xhr.setRequestHeader("X-CSRFToken",csrftoken)
+                            },
+                            data:JSON.stringify(postData),
+                            success:function(data){
+                                if (data['status']=='success'){
+                                    success_message.classList.remove('visually-hidden')
+                                    success_message.innerHTML = data['message'];
+                                    error_message.classList.add('visually-hidden')
+                                }
+                                else if (data['status'] == 'error'){
+                                    error_message.classList.remove('visually-hidden')
+                                    error_message.innerHTML = data['message'];
+                                    success_message.classList.add('visually-hidden')
+                                    
+                                }
+                            },
+                            error:function(xhr,textStatus,errorThrown){
+                                console.log("AJAX ERROR - ",errorThrown);
+                            }
+                        })
+
+
+                    }
+                    
+                    </script>
                 <div class="border-style"></div>
             </div>
             <div class="vector-1">
@@ -76,4 +140,5 @@
             </div>
         </div>
     </div>
+
 </section>

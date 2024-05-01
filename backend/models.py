@@ -220,6 +220,19 @@ class Content(models.Model):
   date_added = models.CharField(max_length=100)
 
 
+class Contact(models.Model):
+   
+  class Meta:
+      db_table = "contact"
+
+  name = models.CharField(max_length=255)
+  email = models.EmailField()
+  address = models.TextField()
+  service = models.CharField(max_length=255)
+  message = models.TextField(blank=True,null=True)
+  number_of_guests = models.CharField(max_length=255,blank=True,null=True)
+  meal_preferences = models.CharField(max_length=255,blank=True,null=True)
+   
 
 
 
