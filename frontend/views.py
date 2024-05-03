@@ -121,6 +121,45 @@ def wishlist(request):
     return render(request,"wishlist/wishlist.html")
 
 
+class HandleContactForm(APIView):
+
+    def get(self,request):
+
+        return render(request,"contact/contact.html")
+    
+    def post(self,request):
+        try:
+
+            data = request.data
+            print(data)
+            name = data.get('name')
+            email = data.get('email')
+            address = data.get('address')
+            service = data.get('service')
+            message = data.get('message')
+            number_of_guests = data.get('number_of_guests')
+            meal_preferences = data.get('meal_preferences')
+            print(name,email,address,service,message)
+            if name is None or email is None or address is None or service is None:
+                return Response({"message":"You must fill all the fields!","status":"error"})
+            contact_form = Contact.objects.create(
+                name = name,
+                email = email,
+                address = address,
+                service = service,
+                message = message,
+                number_of_guests = number_of_guests,
+                meal_preferences = meal_preferences,
+                
+            )
+            print("contactform =", contact_form)
+            contact_form.save()
+            return Response({"message":"Thankyou for contacting us. You will hear from us soon","status":"success"})
+        except Exception as e:
+            print(e)
+            return Response({"message":"Network Error! Try again in some time.","status":"error"})
+        
+
 def contact(request):
     return render(request,"contact/contact.html")
 
