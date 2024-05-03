@@ -971,5 +971,4 @@ def delete_custom_package(request, pk):
         custom_package.delete()
         return redirect('homepage')  # Redirect to wherever appropriate
     return render(request, 'delete_custom_package.html', {'custom_package': custom_package})
-        products = Products.objects.all()
-        return render(request,"all/products.html",{"products":products})    
+       
