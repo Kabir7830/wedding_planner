@@ -250,6 +250,23 @@
                     </ul>
                 </li>
                 <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-services' %}" data-active-url-add="{% url 'admin-add-service' %}">
+                        <span class="icon folder" aria-hidden="true"></span>Services
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-services' %}" data-active-url="{% url 'admin-all-services' %}">All Services</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-service' %}" data-active-url="{% url 'admin-add-service' %}">Add Service</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
                     <a class="show-cat-btn" href="##" data-active-url="#" data-active-url-add="#">
                         <span class="icon image" aria-hidden="true"></span>Banner
                         <span class="category__btn transparent-btn" title="Open list">

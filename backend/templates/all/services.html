@@ -1,0 +1,121 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Services
+{% endblock title %}
+
+{% block page-name %}
+  All Services
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .active-product,.deactive-product{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background-color: rgb(6, 6, 35);
+        padding: 10px;
+        border-radius: 10px;
+        color: white;   
+    }
+    .active-product .active-circle{
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #53e453;
+        box-shadow: 0px 0px 10px #53e453;
+    }
+    .deactive-product .deactive-circle{
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #ff1a1a;
+        box-shadow: 0px 0px 10px #ff1a1a;
+    }
+    .thumbnail{
+        max-width: 200px;
+    }
+    .hidden{
+        display: none;
+    }
+</style>
+    <div class="all-products-wrapper">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Thumbnail</td>
+                    <td>Service Name</td>
+                    <td>Description</td>
+                    <td>Status</td>
+                    <td>Provider Name</td>
+                    <td>Provider Number</td>
+                    <td>Provider Company</td>
+                    <td>Slug</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                  <tr>
+                    <td>{{service.id}}</td>
+                    <td>
+                    
+                        <img src="/media/{{service.image}}" alt="{{service.name}}" class="thumbnail">   
+                        
+                    </td>
+                    <td>{{service.name}}</td>
+                    <td>{{service.description |slice:":160" |safe}}...</td>
+                    <td>
+                        {% if product.is_published %}
+                          <div class="active-product">
+                            <span class="active-circle"></span>
+                            <span class="active-text">Active</span>
+                          </div>
+                          {%else%}
+                          <div class="deactive-product">
+                            <span class="deactive-circle"></span>
+                            <span class="deactive-text">Deactive</span>
+                          </div>
+                        {% endif %}</td>
+                    <td>{{service.provider_name}}</td>
+                    <td>{{service.provider_number}}</td>
+                    <td>{{service.provider_company}}</td>
+                    <td>{{service.slug}}</td>
+                    <td><a href="{%url 'admin-edit-service' service_id=service.id%}" class="btn btn-success">Edit</a></td>
+                    <td>
+                        <form action="{%url 'admin-delete-service' service_id=service.id%}" method="post">
+                            {% csrf_token %}
+                        <button class="btn btn-outline-danger" type="button" id="id_delete_product_button_{{service.id}}" onclick="confirmProductDelete('{{service.id}}')">❌</button>
+                        <span id="id_delete_product_span_{{service.id}}" class="hidden">
+                            Do you want to delete
+                                <button class="btn btn-danger" type="submit">Yes</button>
+                                <button class="btn btn-primary" type="button" onclick="confirmProductDelete('{{service.id}}')">no</button>
+                            </span>
+                        </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function confirmProductDelete(id){
+            let span = document.getElementById(`id_delete_product_span_${id}`);
+            let delete_button = document.getElementById(`id_delete_product_button_${id}`)
+            if (span.classList.contains('hidden')){
+                span.classList.remove('hidden');
+                delete_button.classList.add('hidden')
+            }
+            else{
+                span.classList.add('hidden');
+                delete_button.classList.remove('hidden')
+
+            }
+        }
+    </script>
+{% endblock body %}

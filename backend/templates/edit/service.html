@@ -1,8 +1,12 @@
 {% extends "masters/admin_master.html" %}
 
 {% block title %}
-  Add Address
+  Edit | {{service.name}}
 {% endblock title %}
+
+{% block page-name %}
+  Edit Service | {{service.name}}
+{% endblock page-name %}
 
 {% block body %}
 <!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
@@ -20,16 +24,6 @@
         });
     </script>
 <style>
-    .add-product-section-43264-wrapper {
-        
-        min-height: 170vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .add-product-section-43264 {
-        width: 100%;
-    }
     .add-product-section-43264 .container {
         max-width: 90%;
         margin: 50px auto;
@@ -50,7 +44,6 @@
     .add-product-section-43264 input[type="text"],
     .add-product-section-43264 input[type="number"],
     select,
-    textarea,
     .add-product-section-43264 textarea {
         width: 100%;
         padding: 10px;
@@ -95,32 +88,82 @@
     .preview-container .image-preview{
         border: solid 1px rgb(172, 172, 172);
     }
-    .required{
-        color: red;
-    }
 </style>
-<div class="add-product-section-43264-wrapper">
 <div class="add-product-section-43264">
 <div class="container">
-<h2>New Accommodation</h2>
-<form action="{% url 'admin-accommodations' %}" method="post">
+<h2>Service Form</h2>
+<form action="{%url 'admin-edit-service' service_id=service.id%}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <label for="name">Name <span class="required">*</span></label><br>
-    <input type="text" id="id_name" name="name" required><br>
-    
-    <label for="name">Description <span class="required">*</span></label><br>
-    <textarea id="id_description" name="description" rows="10" required></textarea>
-    
-    <label for="name">Destination <span class="required">*</span></label><br>
-    <input type="text" id="id_destination" name="destination"><br>
-    
-    <label for="name">Image <span class="required">*</span></label><br>
-    <input type="file" id="id_image" name="image"><br>
+    <label for="name">Service Name:</label><br>
+    <input type="text" id="name" name="name" value="{{service.name}}" required><br>
 
+    <label for="cost_price">Cost Price ($):</label><br>
+    <input type="text" id="cost_price" name="compare_at_price" value="{{service.compare_at_price}}"><br>
+
+    <label for="selling_price">Selling Price ($):</label><br>
+    <input type="text" id="selling_price" name="price" value="{{service.price}}" required><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="8" required>{{service.description | safe}}</textarea><br>
+
+    
+    <label for="provide_name">Provider Name:</label><br>
+    <input type="text" id="id_provider_name" name="provider_name" value="{{service.provider_name}}" required><br>
+    
+    <label for="provider_number">Provider Number:</label><br>
+    <input type="text" id="id-provider_number" name="provider_number" value="{{service.provider_number}}" required><br>
+    
+    <label for="provider_company">Provider Company:</label><br>
+    <input type="text" id="id_provider_company" name="provider_company" value="{{service.provider_company}}" required><br>
+
+    <label for="slug">Slug:</label><br>
+    <input type="text" id="id_slug" name="slug" value="{{service.slug}}"><br>
+
+    <label for="image">Image:</label><br>
+    <input type="file" id="images" name="image" onchange="previewImages(event)" value="{{service.image}}"><br>
+
+        <div class="preview-container" id="previewContainer">
+            <div class="image-preview">
+                <img src="/media/{{service.image}}" alt="{{service.name}}">
+            </div>
+        </div>
+
+    <label for="is_published">Publish:</label><br>
+    <select name="is_published" id="is_published">
+        {% if service.is_published %}
+        <option value="True" selected>Yes</option>
+        <option value="False">No</option>
+        {%else%}
+        <option value="True">Yes</option>
+        <option value="False" selected>No</option>
+        {% endif %}
+    </select>
+    
     <input type="submit" value="Submit">
 </form>
 </div>
 </div>
-</div>
+<script>
+function previewImages(event) {
+        var previewContainer = document.getElementById('previewContainer');
+        previewContainer.innerHTML = '';
 
+        var files = event.target.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            reader.onload = function(event) {
+                var imagePreview = document.createElement('div');
+                imagePreview.className = 'image-preview';
+                var image = document.createElement('img');
+                image.src = event.target.result;
+                imagePreview.appendChild(image);
+                previewContainer.appendChild(imagePreview);
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 {% endblock body %}

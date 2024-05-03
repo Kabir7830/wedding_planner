@@ -1,0 +1,142 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Add Dining
+{% endblock title %}
+
+{% block page-name %}
+  Add Dining
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .add-dining-wrapper {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .add-dining-wrapper h2 {
+        text-align: center;
+    }
+
+    .add-dining-wrapper form {
+        margin-top: 20px;
+    }
+
+    .add-dining-wrapper label {
+        font-weight: bold;
+    }
+
+    .add-dining-wrapper input[type="text"],
+    .add-dining-wrapper input[type="number"],
+    select,
+    .add-dining-wrapper textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .add-dining-wrapper input[type="file"] {
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+
+    .add-dining-wrapper .image-preview {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .add-dining-wrapper .image-preview img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .add-dining-wrapper input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .add-dining-wrapper input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    .preview-container {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .preview-container .image-preview {
+        border: solid 1px rgb(172, 172, 172);
+    }
+</style>
+<div class="add-dining-wrapper">
+    <h2>Add Dining Option</h2>
+    <form action="{% url 'admin-add-dining' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="name">Dining Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="8" required></textarea><br>
+
+        <label for="image">Image:</label><br>
+        <input type="file" id="images" name="image" onchange="previewImages(event)" required>
+        <div class="image-preview"></div>
+
+        <label for="price_less_500">Price (Less than $500):</label><br>
+        <input type="text" id="price_less_500" name="price_less_500" required><br>
+
+        <label for="price_500">Price ($500):</label><br>
+        <input type="text" id="price_500" name="price_500"><br>
+
+        <label for="price_1000">Price ($1000):</label><br>
+        <input type="text" id="price_1000" name="price_1000"><br>
+
+        <label for="price_1500">Price ($1500):</label><br>
+        <input type="text" id="price_1500" name="price_1500"><br>
+
+        <label for="price_2000_plus">Price (Over $2000):</label><br>
+        <input type="text" id="price_2000_plus" name="price_2000_plus"><br>
+
+        <label for="slug">Slug:</label><br>
+        <input type="text" id="slug" name="slug"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<script>
+    function previewImages(event) {
+        var previewContainer = document.querySelector('.image-preview');
+        previewContainer.innerHTML = '';
+
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+            var image = document.createElement('img');
+            image.src = event.target.result;
+            previewContainer.appendChild(image);
+        }
+
+        reader.readAsDataURL(file);
+    }
+</script>
+{% endblock body %}

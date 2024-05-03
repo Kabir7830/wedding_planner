@@ -1,0 +1,85 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Add Menu
+{% endblock title %}
+
+{% block page-name %}
+  Add Menu
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .add-menu-section {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .add-menu-section h2 {
+        text-align: center;
+    }
+
+    .add-menu-section form {
+        margin-top: 20px;
+    }
+
+    .add-menu-section label {
+        font-weight: bold;
+    }
+
+    .add-menu-section input[type="text"],
+    .add-menu-section input[type="number"],
+    select,
+    .add-menu-section textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .add-menu-section input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .add-menu-section input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+<div class="add-menu-section">
+    <h2>Menu Form</h2>
+    <form action="{% url 'admin-add-menu' %}" method="post">
+        {% csrf_token %}
+        <label for="name">Menu Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="type">Type:</label><br>
+        <select name="type" id="type" required>
+            <option value="Starter">Starter</option>
+            <option value="Main Course">Main Course</option>
+            <option value="Dessert">Dessert</option>
+        </select><br>
+
+        <label for="price_per_person">Price per Person ($):</label><br>
+        <input type="number" id="price_per_person" name="price_per_person" step="0.01" min="0" required><br>
+
+        <label for="slug">Slug:</label><br>
+        <input type="text" id="slug" name="slug"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock body %}

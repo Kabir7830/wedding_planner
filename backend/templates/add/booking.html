@@ -1,0 +1,35 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Add Booking
+{% endblock title %}
+
+{% block page-name %}
+  Add Booking
+{% endblock page-name %}
+
+{% block body %}
+<div class="add-booking-section">
+  <div class="container">
+    <h2>Add Booking</h2>
+    <form action="{% url 'admin-add-booking' %}" method="post">
+      {% csrf_token %}
+      <label for="user">User:</label><br>
+      <select name="user" id="user">
+        {% for user in users %}
+        <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+      </select><br>
+      
+      <label for="package">Package:</label><br>
+      <select name="package" id="package">
+        {% for package in packages %}
+        <option value="{{ package.id }}">{{ package.id }}</option>
+        {% endfor %}
+      </select><br>
+      
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+{% endblock body %}

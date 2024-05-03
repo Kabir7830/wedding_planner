@@ -1,0 +1,75 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  All Menus
+{% endblock title %}
+
+{% block page-name %}
+  All Menus
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .all-menus-wrapper {
+        max-width: 90%;
+        margin: 50px auto;
+    }
+
+    .all-menus-wrapper table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .all-menus-wrapper th,
+    .all-menus-wrapper td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .all-menus-wrapper th {
+        background-color: #f2f2f2;
+    }
+
+    .all-menus-wrapper tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .all-menus-wrapper tr:hover {
+        background-color: #ddd;
+    }
+</style>
+<div class="all-menus-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price per Person ($)</th>
+                <th>Slug</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for menu in menus %}
+            <tr>
+                <td>{{ menu.id }}</td>
+                <td>{{ menu.name }}</td>
+                <td>{{ menu.type }}</td>
+                <td>{{ menu.price_per_person }}</td>
+                <td>{{ menu.slug }}</td>
+                <td><a href="{% url 'admin-edit-menu' menu_id=menu.id %}" class="btn btn-primary">Edit</a></td>
+                <td>
+                    <form action="{% url 'admin-delete-menu' menu_id=menu.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock body %}

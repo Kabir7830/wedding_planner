@@ -1,0 +1,81 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Add Entertainment
+{% endblock title %}
+
+{% block page-name %}
+  Add Entertainment
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .add-entertainment-section {
+        max-width: 90%;
+        margin: 50px auto;
+    }
+
+    .add-entertainment-section h2 {
+        text-align: center;
+    }
+
+    .add-entertainment-section form {
+        margin-top: 20px;
+    }
+
+    .add-entertainment-section label {
+        font-weight: bold;
+    }
+
+    .add-entertainment-section input[type="text"],
+    .add-entertainment-section input[type="number"],
+    select,
+    .add-entertainment-section textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .add-entertainment-section input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .add-entertainment-section input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<div class="add-entertainment-section">
+    <h2>Add Entertainment</h2>
+    <form action="{% url 'admin-add-entertainment' %}" method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="8" required></textarea><br>
+
+        <label for="price">Price ($):</label><br>
+        <input type="number" id="price" name="price" step="0.01" required><br>
+
+        <label for="slug">Slug:</label><br>
+        <input type="text" id="slug" name="slug"><br>
+
+        <label for="image">Image:</label><br>
+        <input type="file" id="image" name="image" accept="image/*" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock body %}

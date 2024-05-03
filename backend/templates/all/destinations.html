@@ -1,0 +1,127 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Destinations
+{% endblock title %}
+
+{% block page-name %}
+  All Destinations
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .active-destination, .deactive-destination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background-color: rgb(6, 6, 35);
+        padding: 10px;
+        border-radius: 10px;
+        color: white;
+    }
+
+    .active-destination .active-circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #53e453;
+        box-shadow: 0px 0px 10px #53e453;
+    }
+
+    .deactive-destination .deactive-circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #ff1a1a;
+        box-shadow: 0px 0px 10px #ff1a1a;
+    }
+
+    .thumbnail {
+        max-width: 200px;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+<div class="all-destinations-wrapper">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Thumbnail</td>
+                <td>Name</td>
+                <td>Location</td>
+                <td>Description</td>
+                <td>Price ($500)</td>
+                <td>Price ($1000)</td>
+                <td>Price ($1500)</td>
+                <td>Price ($2500+)</td>
+                <td>Status</td>
+                <td>Slug</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for destination in destinations %}
+            <tr>
+                <td>{{ destination.id }}</td>
+                <td>
+                    <img src="/media/{{ destination.image }}" alt="{{ destination.name }}" class="thumbnail">
+                </td>
+                <td>{{ destination.name }}</td>
+                <td>{{ destination.location }}</td>
+                <td>{{ destination.description | slice:":160" | safe }}...</td>
+                <td>{{ destination.price_500 }}</td>
+                <td>{{ destination.price_1000 }}</td>
+                <td>{{ destination.price_1500 }}</td>
+                <td>{{ destination.price_2500_plus }}</td>
+                <td>
+                    {% if destination.is_published %}
+                    <div class="active-destination">
+                        <span class="active-circle"></span>
+                        <span class="active-text">Active</span>
+                    </div>
+                    {% else %}
+                    <div class="deactive-destination">
+                        <span class="deactive-circle"></span>
+                        <span class="deactive-text">Deactive</span>
+                    </div>
+                    {% endif %}
+                </td>
+                <td>{{ destination.slug }}</td>
+                <td><a href="{% url 'admin-edit-destination' destination_id=destination.id %}" class="btn btn-success">Edit</a></td>
+                <td>
+                    <form action="{% url 'admin-delete-destination' destination_id=destination.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger" type="button" id="id_delete_destination_button_{{ destination.id }}" onclick="confirmDestinationDelete('{{ destination.id }}')">❌</button>
+                        <span id="id_delete_destination_span_{{ destination.id }}" class="hidden">
+                            Do you want to delete
+                            <button class="btn btn-danger" type="submit">Yes</button>
+                            <button class="btn btn-primary" type="button" onclick="confirmDestinationDelete('{{ destination.id }}')">No</button>
+                        </span>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function confirmDestinationDelete(id) {
+        let span = document.getElementById(`id_delete_destination_span_${id}`);
+        let delete_button = document.getElementById(`id_delete_destination_button_${id}`)
+        if (span.classList.contains('hidden')) {
+            span.classList.remove('hidden');
+            delete_button.classList.add('hidden')
+        } else {
+            span.classList.add('hidden');
+            delete_button.classList.remove('hidden')
+
+        }
+    }
+</script>
+{% endblock body %}

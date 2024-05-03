@@ -4,6 +4,22 @@
     <h2 class="hidden">some</h2>
     <div class="container">
         <div class="wpo-service-active owl-carousel">
+
+            {% for service in services %}
+            <div class="wpo-service-item">
+                <div class="wpo-service-img">
+                    <img src="/media/{{service.image}}" alt="">
+
+                    <div class="wpo-service-text">
+                        <div class="s-icon">
+                            <i class="fi flaticon-gallery"></i>
+                        </div>
+                        <a href="{% url 'service' slug=service.slug %}">{{service.name}}</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {{services}}
             <div class="wpo-service-item">
                 <div class="wpo-service-img">
                     <img src="{% static 'images/service/img-1.jpg'%}" alt="">

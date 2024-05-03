@@ -1,0 +1,80 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Add Package
+{% endblock title %}
+
+{% block page-name %}
+  Add Package
+{% endblock page-name %}
+
+{% block body %}
+<div class="add-package-section">
+  <div class="container">
+    <h2>Add Package</h2>
+    <form action="{% url 'admin-add-package' %}" method="post">
+      {% csrf_token %}
+      <label for="user">User:</label><br>
+      <select name="user" id="user" required>
+        <option value="">-- Select User --</option>
+        {% for user in users %}
+        <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="destination">Destination:</label><br>
+      <select name="destination" id="destination" required>
+        <option value="">-- Select Destination --</option>
+        {% for destination in destinations %}
+        <option value="{{ destination.id }}">{{ destination.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="accommodation">Accommodation:</label><br>
+      <select name="accommodation" id="accommodation" required>
+        <option value="">-- Select Accommodation --</option>
+        {% for accommodation in accommodations %}
+        <option value="{{ accommodation.id }}">{{ accommodation.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="menu">Menu:</label><br>
+      <select name="menu" id="menu" required>
+        <option value="">-- Select Menu --</option>
+        {% for menu in menus %}
+        <option value="{{ menu.id }}">{{ menu.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="decoration">Decoration:</label><br>
+      <select name="decoration" id="decoration" required>
+        <option value="">-- Select Decoration --</option>
+        {% for decoration in decorations %}
+        <option value="{{ decoration.id }}">{{ decoration.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="entertainment">Entertainment:</label><br>
+      <select name="entertainment" id="entertainment" required>
+        <option value="">-- Select Entertainment --</option>
+        {% for entertainment in entertainments %}
+        <option value="{{ entertainment.id }}">{{ entertainment.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="extra">Extra:</label><br>
+      <select name="extra" id="extra" required>
+        <option value="">-- Select Extra --</option>
+        {% for extra in extras %}
+        <option value="{{ extra.id }}">{{ extra.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="total_price">Total Price:</label><br>
+      <input type="text" id="total_price" name="total_price" required><br>
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+{% endblock body %}

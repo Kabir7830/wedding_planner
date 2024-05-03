@@ -1,0 +1,36 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Add Extra
+{% endblock title %}
+
+{% block page-name %}
+  Add Extra
+{% endblock page-name %}
+
+{% block body %}
+<div class="add-extra-section">
+  <div class="container">
+    <h2>Add Extra</h2>
+    <form action="{% url 'admin-add-extra' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="name">Name:</label><br>
+      <input type="text" id="name" name="name" required><br>
+
+      <label for="description">Description:</label><br>
+      <textarea id="description" name="description" rows="4" required></textarea><br>
+
+      <label for="type">Type:</label><br>
+      <input type="text" id="type" name="type" required><br>
+
+      <label for="price">Price ($):</label><br>
+      <input type="text" id="price" name="price" required><br>
+
+      <label for="image">Image:</label><br>
+      <input type="file" id="image" name="image" accept="image/*" required><br>
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+{% endblock body %}
