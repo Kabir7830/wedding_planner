@@ -250,8 +250,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a class="show-cat-btn" href="##" data-active-url="#" data-active-url-add="#">
-                        <span class="icon image" aria-hidden="true"></span>Banner
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-accommodations' %}" data-active-url-add="{% url 'admin-add-accommodations' %}">
+                        <span class="icon image" aria-hidden="true"></span>Accomodations
                         <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -259,10 +259,10 @@
                     </a>
                     <ul class="cat-sub-menu">
                         <li>
-                            <a href="#" data-active-url="#">All Banners</a>
+                            <a href="{% url 'admin-all-accommodations' %}" data-active-url="{% url 'admin-all-accommodations' %}">All Accomodations</a>
                         </li>
                         <li>
-                            <a href="#" data-active-url="#">Add Banner</a>
+                            <a href="{% url 'admin-add-accommodations' %}" data-active-url="{% url 'admin-add-accommodations' %}">Add Accomodations</a>
                         </li>
                     </ul>
                 </li>
