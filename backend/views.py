@@ -919,18 +919,28 @@ def view_cart(request):
     return render(request, 'cart/view_cart.html', {'cart': cart, 'items': items, 'total_price': total_price})
 
 
+def add_item_to_cart(request,product_id):
+    if not(request.user.is_authenticated):
+        return redirect('login')
+    
+    if is_method_post(request):
+        pass
+
 def add_to_cart(request, package_id):
-    package = Package.objects.get(pk=package_id)
-    form = CartItemForm(request.POST or None)
-    if form.is_valid():
-        quantity = form.cleaned_data.get('quantity')
-        cart = Cart.objects.get_or_create(user=request.user)
-        item, created = CartItem.objects.get_or_create(cart=cart, package=package)
-        if not created:
-            item.quantity += quantity
-            item.save()
-        return redirect('view_cart')
-    return render(request, 'cart/add_to_cart.html', {'form': form, 'package': package})
+    if not(request.user.is_authenticated):
+        return redirect('login')
+    if is_method_post(request):
+        package = Package.objects.get(pk=package_id)
+        form = CartItemForm(request.POST or None)
+        if form.is_valid():
+            quantity = form.cleaned_data.get('quantity')
+            cart = Cart.objects.get_or_create(user=request.user)
+            item, created = CartItem.objects.get_or_create(cart=cart, package=package)
+            if not created:
+                item.quantity += quantity
+                item.save()
+            return redirect('view_cart')
+        return render(request, 'cart/add_to_cart.html', {'form': form, 'package': package})
 
 
 def remove_from_cart(request, item_id):
