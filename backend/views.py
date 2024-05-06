@@ -404,7 +404,7 @@ def AddDining(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Dining option added successfully.")
-                return redirect('admin-all-dinings')
+                return redirect('admin-all-dining')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -468,7 +468,7 @@ def AddMenu(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Menu item added successfully.")
-                return redirect('admin-all-menus')
+                return redirect('admin-all-menu')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -532,7 +532,7 @@ def AddDecoration(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Decoration item added successfully.")
-                return redirect('admin-all-decorations')
+                return redirect('admin-all-decoration')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -596,7 +596,7 @@ def AddEntertainment(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Entertainment option added successfully.")
-                return redirect('admin-all-entertainments')
+                return redirect('admin-all-entertainment')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -726,7 +726,7 @@ def AddPackage(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Package added successfully.")
-                return redirect('admin-all-packages')
+                return redirect('admin-all-package')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -785,19 +785,18 @@ def GetAllPackageAdmin(request):
 
 def AddBooking(request):
     if is_admin(request):
-        packages = Package.objects.all()
         if is_method_post(request):
             form = BookingForm(request.POST)
             if form.is_valid():
                 form.save()
                 messages.success(request, "Booking added successfully.")
-                return redirect('admin-all-bookings')
+                return redirect('admin-all-booking')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
         else:
             form = BookingForm()
-            return render(request, "add/booking.html", {"form": form,"packages":packages})
+            return render(request, "add/booking.html", {"form": form})
     else:
         return redirect('404')
 
