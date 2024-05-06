@@ -1,0 +1,37 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Edit Extra | {{ extra.name }}
+{% endblock title %}
+
+{% block page-name %}
+  Edit Extra | {{ extra.name }}
+{% endblock page-name %}
+
+{% block body %}
+<div class="edit-extra-section">
+  <div class="container">
+    <h2>Edit Extra</h2>
+    <form action="{% url 'admin-edit-extra' extra_id=extra.id %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="name">Name:</label><br>
+      <input type="text" id="name" name="name" value="{{ extra.name }}" required><br>
+
+      <label for="description">Description:</label><br>
+      <textarea id="description" name="description" rows="4" required>{{ extra.description }}</textarea><br>
+
+      <label for="type">Type:</label><br>
+      <input type="text" id="type" name="type" value="{{ extra.type }}" required><br>
+
+      <label for="price">Price ($):</label><br>
+      <input type="text" id="price" name="price" value="{{ extra.price }}" required><br>
+
+      <label for="image">Image:</label><br>
+      <input type="file" id="image" name="image" accept="image/*"><br>
+      <img src="{{ extra.image.url }}" alt="{{ extra.name }}" class="preview-image">
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+{% endblock body %}

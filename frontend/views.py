@@ -9,7 +9,12 @@ User = get_user_model()
 
 def homepage(request):
     special_products = Products.objects.filter(is_published = True).order_by('-id')[:8]
-    return render(request,"homepage/index.html",{"special_products":special_products})
+    services = Services.objects.filter(is_published = True)
+    return render(request,"homepage/index.html",{"special_products":special_products,"services":services})
+
+
+def getProductUser(request):
+    pass
 
 
 def about_us(request):
@@ -26,9 +31,13 @@ def cart(request):
 def shop(request):
     return render(request,"shop/shop.html")
 
+def AllServices(request):
+    services = Services.objects.all()
+    return render(request,"services/all_services.html",{"services":services})
 
-def single_service(request):
-    return render(request,"services/service-single.html")
+def single_service(request,slug):
+    service = Services.objects.filter(slug = slug).first()
+    return render(request,"services/service-single.html",{"service":service})
 
 
 

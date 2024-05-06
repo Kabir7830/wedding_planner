@@ -1,0 +1,43 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  All Bookings
+{% endblock title %}
+
+{% block page-name %}
+  All Bookings
+{% endblock page-name %}
+
+{% block body %}
+<div class="all-bookings-section">
+  <div class="container">
+    <h2>All Bookings</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Package</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in bookings %}
+        <tr>
+          <td>{{ booking.id }}</td>
+          <td>{{ booking.user.email }}</td>
+          <td>{{ booking.package.id }}</td>
+          <td>
+            <a href="{% url 'admin-edit-booking' booking_id=booking.id %}" class="btn btn-success">Edit</a>
+            <form action="{% url 'admin-delete-booking' booking_id=booking.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock body %}

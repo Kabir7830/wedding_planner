@@ -1,0 +1,141 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Add Package
+{% endblock title %}
+
+{% block page-name %}
+  Add Package
+{% endblock page-name %}
+
+{% block body %}
+<style>
+.add-package-section input[type="text"],
+.add-package-section input[type="file"],
+    .add-package-section input[type="number"],
+    .add-package-section select,
+    .add-package-section textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    .add-package-section .container{
+      max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .add-package-section input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+</style>
+<div class="add-package-section">
+  <div class="container">
+    <h2>Add Package</h2>
+    <form action="{% url 'admin-add-package' %}" method="post">
+      {% csrf_token %}
+      <label for="user">User:</label><br>
+      <select name="user" id="user" required>
+        <option value="">-- Select User --</option>
+        {% for user in users %}
+        <option value="{{ user.id }}">{{ user.email }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="destination">Destination:</label><br>
+      <select name="destination" id="destination" >
+        <option value="">-- Select Destination --</option>
+        {% for destination in destinations %}
+        <option value="{{ destination.id }}">{{ destination.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="accommodation">Accommodation:</label><br>
+      <select name="accommodation" id="accommodation" >
+        <option value="">-- Select Accommodation --</option>
+        {% for accommodation in accommodations %}
+        <option value="{{ accommodation.id }}">{{ accommodation.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="menu">Menu:</label><br>
+      <select name="menu" id="menu" >
+        <option value="">-- Select Menu --</option>
+        {% for menu in menus %}
+        <option value="{{ menu.id }}">{{ menu.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="decoration">Decoration:</label><br>
+      <select name="decoration" id="decoration">
+        <option value="">-- Select Decoration --</option>
+        {% for decoration in decorations %}
+        <option value="{{ decoration.id }}">{{ decoration.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="entertainment">Entertainment:</label><br>
+      <select name="entertainment" id="entertainment">
+        <option value="">-- Select Entertainment --</option>
+        {% for entertainment in entertainments %}
+        <option value="{{ entertainment.id }}">{{ entertainment.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="extra">Extra:</label><br>
+      <select name="extra" id="extra">
+        <option value="">-- Select Extra --</option>
+        {% for extra in extras %}
+        <option value="{{ extra.id }}">{{ extra.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="">Services</label>
+      <input type="hidden" name="services" id="id_services">
+      {% for service in services %}
+      <br>
+      <input type="checkbox" name="service{{service.id}}" id="id_service_checkbox_{{sevice.id}}" value="{{service.id}}" onchange="set_checkbox_data()">
+      <label for="{{service.name}}">{{service.name}}</label>
+      {% endfor %}
+      <br>
+      <br>
+      <label for="image">Thumbnail</label>
+      <br>
+      <input type="file" name="image">
+      <br>
+      <br>
+      <label for="total_price">Total Price:</label><br>
+      <input type="text" id="total_price" name="total_price" required><br>
+
+      <input type="submit" value="Submit">
+    </form>
+
+    <script>
+      function set_checkbox_data(){
+        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        let og_input = document.getElementById('id_services');
+        let a = new Array;
+        for (let checkbox of checkboxes){
+          if (checkbox.checked){
+            a.push(checkbox.value);
+          }
+        }
+        og_input.value = a;
+      }
+    </script>
+  </div>
+</div>
+{% endblock body %}

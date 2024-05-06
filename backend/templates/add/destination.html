@@ -1,0 +1,116 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Add Destination
+{% endblock title %}
+
+{% block page-name %}
+  Add Destination
+{% endblock page-name %}
+
+{% block body %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" integrity="sha512-VCEWnpOl7PIhbYMcb64pqGZYez41C2uws/M/mDdGPy+vtEJHd9BqbShE4/VNnnZdr7YCPOjd+CBmYca/7WWWCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    tinymce.init({
+        selector: '#description',
+        plugins: 'advlist autolink lists link image charmap print preview anchor',
+        toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image'
+    });
+</script>
+<style>
+    .add-destination-section .container {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .add-destination-section h2 {
+        text-align: center;
+    }
+    .add-destination-section form {
+        margin-top: 20px;
+    }
+    .add-destination-section label {
+        font-weight: bold;
+    }
+    .add-destination-section input[type="text"],
+    select,
+    .add-destination-section textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    .add-destination-section input[type="file"] {
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+    .add-destination-section .image-preview {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .add-destination-section .image-preview img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    .add-destination-section input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+    .add-destination-section input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+<div class="add-destination-section">
+<div class="container">
+<h2>Destination Form</h2>
+<form action="{% url 'admin-add-destination' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="location">Location:</label><br>
+    <input type="text" id="location" name="location" required><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="8"></textarea><br>
+
+    <label for="image">Image:</label><br>
+    <input type="file" id="image" name="image" accept="image/*" required><br>
+
+    <label for="price_500">Price ($500):</label><br>
+    <input type="number" id="price_500" name="price_500" min="0" step="0.01" required><br>
+
+    <label for="price_1000">Price ($1000):</label><br>
+    <input type="number" id="price_1000" name="price_1000" min="0" step="0.01" required><br>
+
+    <label for="price_1500">Price ($1500):</label><br>
+    <input type="number" id="price_1500" name="price_1500" min="0" step="0.01" required><br>
+
+    <label for="price_2500_plus">Price ($2500+):</label><br>
+    <input type="number" id="price_2500_plus" name="price_2500_plus" min="0" step="0.01" required><br>
+
+    <label for="is_published">Status</label><br>
+    <select name="is_published" id="id_is_published">
+        <option value="True">Publish</option>
+        <option value="False">Draft</option>
+    </select>
+
+    <input type="submit" value="Submit">
+</form>
+</div>
+</div>
+{% endblock body %}

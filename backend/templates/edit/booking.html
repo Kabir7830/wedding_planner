@@ -1,0 +1,35 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Edit Booking | {{ booking.id }}
+{% endblock title %}
+
+{% block page-name %}
+  Edit Booking | {{ booking.id }}
+{% endblock page-name %}
+
+{% block body %}
+<div class="edit-booking-section">
+  <div class="container">
+    <h2>Edit Booking</h2>
+    <form action="{% url 'admin-edit-booking' booking_id=booking.id %}" method="post">
+      {% csrf_token %}
+      <label for="user">User:</label><br>
+      <select name="user" id="user">
+        {% for user in users %}
+          <option value="{{ user.id }}" {% if user.id == booking.user.id %} selected {% endif %}>{{ user.username }}</option>
+        {% endfor %}
+      </select><br>
+      
+      <label for="package">Package:</label><br>
+      <select name="package" id="package">
+        {% for package in packages %}
+          <option value="{{ package.id }}" {% if package.id == booking.package.id %} selected {% endif %}>{{ package.id }}</option>
+        {% endfor %}
+      </select><br>
+      
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+{% endblock body %}

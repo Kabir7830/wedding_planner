@@ -1,40 +1,24 @@
-{% extends "masters/index_master.html" %}
+{% extends "masters/admin_master.html" %}
 
 {% block title %}
-  Add Address
+  Add Accommodation
 {% endblock title %}
 
-{% block body %}
-<!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" integrity="sha512-VCEWnpOl7PIhbYMcb64pqGZYez41C2uws/M/mDdGPy+vtEJHd9BqbShE4/VNnnZdr7YCPOjd+CBmYca/7WWWCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        tinymce.init({
-            selector: '#description',
-            plugins: 'advlist autolink lists link image charmap print preview anchor',
-            toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image'
-        });
-        tinymce.init({
-            selector: '#short_description',
-            plugins: 'advlist autolink lists link image charmap print preview anchor',
-            toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image'
-        });
-    </script>
-<style>
-    body{
+{% block page-name %}
+  Add Accommodation
+{% endblock page-name %}
 
-        background-color: #45a049;
-    }
-    .add-product-section-43264-wrapper {
-        
-        min-height: 170vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .add-product-section-43264 {
-        width: 100%;
-    }
-    .add-product-section-43264 .container {
+{% block body %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" integrity="sha512-VCEWnpOl7PIhbYMcb64pqGZYez41C2uws/M/mDdGPy+vtEJHd9BqbShE4/VNnnZdr7YCPOjd+CBmYca/7WWWCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    tinymce.init({
+        selector: '#description',
+        plugins: 'advlist autolink lists link image charmap print preview anchor',
+        toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image'
+    });
+</script>
+<style>
+    .add-accommodation-section .container {
         max-width: 90%;
         margin: 50px auto;
         padding: 20px;
@@ -42,20 +26,19 @@
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    .add-product-section-43264 h2 {
+    .add-accommodation-section h2 {
         text-align: center;
     }
-    .add-product-section-43264 form {
+    .add-accommodation-section form {
         margin-top: 20px;
     }
-    .add-product-section-43264 label {
+    .add-accommodation-section label {
         font-weight: bold;
     }
-    .add-product-section-43264 input[type="text"],
-    .add-product-section-43264 input[type="number"],
+    .add-accommodation-section input[type="text"],
+    .add-accommodation-section input[type="number"],
     select,
-    textarea,
-    .add-product-section-43264 textarea {
+    .add-accommodation-section textarea {
         width: 100%;
         padding: 10px;
         margin-top: 5px;
@@ -64,21 +47,21 @@
         border-radius: 5px;
         box-sizing: border-box;
     }
-    .add-product-section-43264 input[type="file"] {
+    .add-accommodation-section input[type="file"] {
         margin-top: 5px;
         margin-bottom: 20px;
     }
-    .add-product-section-43264 .image-preview {
+    .add-accommodation-section .image-preview {
         text-align: center;
         margin-bottom: 20px;
     }
-    .add-product-section-43264 .image-preview img {
+    .add-accommodation-section .image-preview img {
         max-width: 200px;
         max-height: 200px;
         border-radius: 5px;
         margin-top: 10px;
     }
-    .add-product-section-43264 input[type="submit"] {
+    .add-accommodation-section input[type="submit"] {
         background-color: #4CAF50;
         color: white;
         padding: 14px 20px;
@@ -88,49 +71,34 @@
         cursor: pointer;
         width: 100%;
     }
-    .add-product-section-43264 input[type="submit"]:hover {
+    .add-accommodation-section input[type="submit"]:hover {
         background-color: #45a049;
     }
-    .preview-container{
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-    .preview-container .image-preview{
-        border: solid 1px rgb(172, 172, 172);
-    }
 </style>
-<div class="add-product-section-43264-wrapper">
-<div class="add-product-section-43264">
+<div class="add-accommodation-section">
 <div class="container">
-<h2>New Address</h2>
-<form action="{%url 'add-address'%}" method="post">
+<h2>Accommodation Form</h2>
+<form action="{% url 'admin-add-accommodation' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <label for="name">House No:</label><br>
-    <input type="text" id="id_house_no" name="house_no" required><br>
-    
-    <label for="name">Address Line 1:</label><br>
-    <input type="text" id="id_description" name="address_line_1" required>
-    
-    <label for="name">Address Line 2:</label><br>
-    <input type="text" id="id_phone_number" name="address_line_2"><br>
-    
-    <label for="name">City:</label><br>
-    <input type="text" id="id_city" name="city" required><br>
-    
-    <label for="name">Landmark:</label><br>
-    <input type="text" id="id_landmark" name="landmark"><br>
-    
-    <label for="name">Pin Code:</label><br>
-    <input type="text" id="id_pin_code" name="pin_code" required><br>
+    <label for="destination">Destination:</label><br>
+    <select name="destination" id="destination" required>
+        <option value="--">--</option>
+        {% for destination in destinations %}
+          <option value="{{ destination.id }}">{{ destination.name }}</option>
+        {% endfor %}
+    </select><br>
 
-    <label for="image">Phone Number (+91):</label><br>
-    <input type="text" id="id_phone_number" name="phone_number" required><br>
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="8"></textarea><br>
+
+    <label for="image">Image:</label><br>
+    <input type="file" id="image" name="image" accept="image/*" required><br>
 
     <input type="submit" value="Submit">
 </form>
 </div>
 </div>
-</div>
-
 {% endblock body %}

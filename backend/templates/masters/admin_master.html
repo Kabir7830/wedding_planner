@@ -250,7 +250,41 @@
                     </ul>
                 </li>
                 <li>
-                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-accommodations' %}" data-active-url-add="{% url 'admin-add-accommodations' %}">
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-services' %}" data-active-url-add="{% url 'admin-add-service' %}">
+                        <span class="icon folder" aria-hidden="true"></span>Services
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-services' %}" data-active-url="{% url 'admin-all-services' %}">All Services</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-service' %}" data-active-url="{% url 'admin-add-service' %}">Add Service</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-destinations' %}" data-active-url-add="{% url 'admin-add-destination' %}">
+                        <span class="icon image" aria-hidden="true"></span>Destinations
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-destinations' %}" data-active-url="{% url 'admin-all-destinations' %}">All Destinations</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-destination' %}" data-active-url="{% url 'admin-add-destination' %}">Add Destination</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-accommodations' %}" data-active-url-add="{% url 'admin-add-accommodation' %}">
                         <span class="icon image" aria-hidden="true"></span>Accomodations
                         <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -262,7 +296,126 @@
                             <a href="{% url 'admin-all-accommodations' %}" data-active-url="{% url 'admin-all-accommodations' %}">All Accomodations</a>
                         </li>
                         <li>
-                            <a href="{% url 'admin-add-accommodations' %}" data-active-url="{% url 'admin-add-accommodations' %}">Add Accomodations</a>
+                            <a href="{% url 'admin-add-accommodation' %}" data-active-url="{% url 'admin-add-accommodation' %}">Add Accomodations</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-decorations' %}" data-active-url-add="{% url 'admin-add-decoration' %}">
+                        <span class="icon image" aria-hidden="true"></span>Decorations
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-decorations' %}" data-active-url="{% url 'admin-all-decorations' %}">All Decorations</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-decoration' %}" data-active-url="{% url 'admin-add-decoration' %}">Add Decoration</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-menus' %}" data-active-url-add="{% url 'admin-add-menu' %}">
+                        <span class="icon image" aria-hidden="true"></span>Menus
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-menus' %}" data-active-url="{% url 'admin-all-menus' %}">All Menus</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-menu' %}" data-active-url="{% url 'admin-add-menu' %}">Add Menu</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-entertainments' %}" data-active-url-add="{% url 'admin-add-entertainment' %}">
+                        <span class="icon image" aria-hidden="true"></span>Entertainments
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-entertainments' %}" data-active-url="{% url 'admin-all-entertainments' %}">All Entertainments</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-entertainment' %}" data-active-url="{% url 'admin-add-entertainment' %}">Add Entertainment</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-dinings' %}" data-active-url-add="{% url 'admin-add-dining' %}">
+                        <span class="icon image" aria-hidden="true"></span>Dinings
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-dinings' %}" data-active-url="{% url 'admin-all-dinings' %}">All Dinings</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-dining' %}" data-active-url="{% url 'admin-add-dining' %}">Add Dining</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-extras' %}" data-active-url-add="{% url 'admin-add-extra' %}">
+                        <span class="icon image" aria-hidden="true"></span>Extras
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-extras' %}" data-active-url="{% url 'admin-all-extras' %}">All Extras</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-extra' %}" data-active-url="{% url 'admin-add-extra' %}">Add Extra</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-packages' %}" data-active-url-add="{% url 'admin-add-package' %}">
+                        <span class="icon image" aria-hidden="true"></span>Packages
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-packages' %}" data-active-url="{% url 'admin-all-packages' %}">All Packages</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-package' %}" data-active-url="{% url 'admin-add-package' %}">Add Package</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="show-cat-btn" href="##" data-active-url="{% url 'admin-all-bookings' %}" data-active-url-add="{% url 'admin-add-booking' %}">
+                        <span class="icon image" aria-hidden="true"></span>Bookings
+                        <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                    <ul class="cat-sub-menu">
+                        <li>
+                            <a href="{% url 'admin-all-bookings' %}" data-active-url="{% url 'admin-all-bookings' %}">All Bookings</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin-add-booking' %}" data-active-url="{% url 'admin-add-booking' %}">Add Booking</a>
                         </li>
                     </ul>
                 </li>

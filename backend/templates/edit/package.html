@@ -1,0 +1,73 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Edit Package | {{ package.id }}
+{% endblock title %}
+
+{% block page-name %}
+  Edit Package | {{ package.id }}
+{% endblock page-name %}
+
+{% block body %}
+<div class="edit-package-section">
+  <div class="container">
+    <h2>Edit Package</h2>
+    <form action="{% url 'admin-edit-package' package_id=package.id %}" method="post">
+      {% csrf_token %}
+      <label for="user">User:</label><br>
+      <select name="user" id="user" required>
+        {% for user in users %}
+        <option value="{{ user.id }}" {% if user.id == package.user.id %} selected {% endif %}>{{ user.username }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="destination">Destination:</label><br>
+      <select name="destination" id="destination" required>
+        {% for destination in destinations %}
+        <option value="{{ destination.id }}" {% if destination.id == package.destination.id %} selected {% endif %}>{{ destination.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="accommodation">Accommodation:</label><br>
+      <select name="accommodation" id="accommodation" required>
+        {% for accommodation in accommodations %}
+        <option value="{{ accommodation.id }}" {% if accommodation.id == package.accommodation.id %} selected {% endif %}>{{ accommodation.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="menu">Menu:</label><br>
+      <select name="menu" id="menu" required>
+        {% for menu in menus %}
+        <option value="{{ menu.id }}" {% if menu.id == package.menu.id %} selected {% endif %}>{{ menu.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="decoration">Decoration:</label><br>
+      <select name="decoration" id="decoration" required>
+        {% for decoration in decorations %}
+        <option value="{{ decoration.id }}" {% if decoration.id == package.decoration.id %} selected {% endif %}>{{ decoration.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="entertainment">Entertainment:</label><br>
+      <select name="entertainment" id="entertainment" required>
+        {% for entertainment in entertainments %}
+        <option value="{{ entertainment.id }}" {% if entertainment.id == package.entertainment.id %} selected {% endif %}>{{ entertainment.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="extra">Extra:</label><br>
+      <select name="extra" id="extra" required>
+        {% for extra in extras %}
+        <option value="{{ extra.id }}" {% if extra.id == package.extra.id %} selected {% endif %}>{{ extra.name }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label for="total_price">Total Price:</label><br>
+      <input type="text" id="total_price" name="total_price" value="{{ package.total_price }}" required><br>
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+{% endblock body %}

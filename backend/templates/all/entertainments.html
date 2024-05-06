@@ -1,0 +1,46 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  All Entertainment
+{% endblock title %}
+
+{% block page-name %}
+  All Entertainment
+{% endblock page-name %}
+
+{% block body %}
+<div class="all-entertainment-section">
+  <div class="container">
+    <h2>All Entertainment</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entertainment in entertainment_options %}
+        <tr>
+          <td>{{ entertainment.id }}</td>
+          <td>{{ entertainment.name }}</td>
+          <td>{{ entertainment.description }}</td>
+          <td>${{ entertainment.price }}</td>
+          
+          <td>
+            <a href="{% url 'admin-edit-entertainment' entertainment_id=entertainment.id %}" class="btn btn-primary">Edit</a>
+            <form action="{% url 'admin-delete-entertainment' entertainment_id=entertainment.id %}" method="post" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this entertainment?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock body %}

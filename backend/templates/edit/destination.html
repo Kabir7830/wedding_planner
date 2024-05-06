@@ -1,0 +1,150 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Edit | {{ destination.name }}
+{% endblock title %}
+
+{% block page-name %}
+  Edit Destination | {{ destination.name }}
+{% endblock page-name %}
+
+{% block body %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" integrity="sha512-VCEWnpOl7PIhbYMcb64pqGZYez41C2uws/M/mDdGPy+vtEJHd9BqbShE4/VNnnZdr7YCPOjd+CBmYca/7WWWCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    tinymce.init({
+        selector: '#description',
+        plugins: 'advlist autolink lists link image charmap print preview anchor',
+        toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image'
+    });
+</script>
+<style>
+    .edit-destination-section {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-destination-section h2 {
+        text-align: center;
+    }
+
+    .edit-destination-section form {
+        margin-top: 20px;
+    }
+
+    .edit-destination-section label {
+        font-weight: bold;
+    }
+
+    .edit-destination-section input[type="text"],
+    .edit-destination-section input[type="number"],
+    select,
+    .edit-destination-section textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .edit-destination-section input[type="file"] {
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+
+    .edit-destination-section .image-preview {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .edit-destination-section .image-preview img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .edit-destination-section input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .edit-destination-section input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+<div class="edit-destination-section">
+    <h2>Destination Form</h2>
+    <form action="{% url 'admin-edit-destination' destination_id=destination.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ destination.name }}" required><br>
+
+        <label for="location">Location:</label><br>
+        <input type="text" id="location" name="location" value="{{ destination.location }}" required><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="8" required>{{ destination.description | safe }}</textarea><br>
+
+        <label for="image">Image:</label><br>
+        <input type="file" id="image" name="image" accept="image/*"><br>
+
+        <div class="image-preview">
+            <img src="/media/{{ destination.image }}" alt="{{ destination.name }}">
+        </div>
+
+        <label for="price_500">Price ($500):</label><br>
+        <input type="text" id="price_500" name="price_500" value="{{ destination.price_500 }}" required><br>
+
+        <label for="price_1000">Price ($1000):</label><br>
+        <input type="text" id="price_1000" name="price_1000" value="{{ destination.price_1000 }}" required><br>
+
+        <label for="price_1500">Price ($1500):</label><br>
+        <input type="text" id="price_1500" name="price_1500" value="{{ destination.price_1500 }}" required><br>
+
+        <label for="price_2500_plus">Price ($2500+):</label><br>
+        <input type="text" id="price_2500_plus" name="price_2500_plus" value="{{ destination.price_2500_plus }}" required><br>
+
+        <label for="slug">Slug:</label><br>
+        <input type="text" id="slug" name="slug" value="{{ destination.slug }}"><br>
+
+
+        
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<script>
+    function previewImages(event) {
+        var previewContainer = document.getElementById('image-preview');
+        previewContainer.innerHTML = '';
+
+        var files = event.target.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            reader.onload = function(event) {
+                var imagePreview = document.createElement('div');
+                imagePreview.className = 'image-preview';
+                var image = document.createElement('img');
+                image.src = event.target.result;
+                imagePreview.appendChild(image);
+                previewContainer.appendChild(imagePreview);
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+{% endblock body %}

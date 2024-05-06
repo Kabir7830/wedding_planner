@@ -1,0 +1,85 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Edit Menu | {{ menu.name }}
+{% endblock title %}
+
+{% block page-name %}
+  Edit Menu | {{ menu.name }}
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .edit-menu-section {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-menu-section h2 {
+        text-align: center;
+    }
+
+    .edit-menu-section form {
+        margin-top: 20px;
+    }
+
+    .edit-menu-section label {
+        font-weight: bold;
+    }
+
+    .edit-menu-section input[type="text"],
+    .edit-menu-section input[type="number"],
+    select,
+    .edit-menu-section textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .edit-menu-section input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .edit-menu-section input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+<div class="edit-menu-section">
+    <h2>Edit Menu</h2>
+    <form action="{% url 'admin-edit-menu' menu_id=menu.id %}" method="post">
+        {% csrf_token %}
+        <label for="name">Menu Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ menu.name }}" required><br>
+
+        <label for="type">Type:</label><br>
+        <select name="type" id="type" required>
+            <option value="Starter" {% if menu.type == "Starter" %} selected {% endif %}>Starter</option>
+            <option value="Main Course" {% if menu.type == "Main Course" %} selected {% endif %}>Main Course</option>
+            <option value="Dessert" {% if menu.type == "Dessert" %} selected {% endif %}>Dessert</option>
+        </select><br>
+
+        <label for="price_per_person">Price per Person ($):</label><br>
+        <input type="number" id="price_per_person" name="price_per_person" value="{{ menu.price_per_person }}" step="0.01" min="0" required><br>
+
+        <label for="slug">Slug:</label><br>
+        <input type="text" id="slug" name="slug" value="{{ menu.slug }}"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock body %}

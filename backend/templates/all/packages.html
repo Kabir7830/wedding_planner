@@ -1,0 +1,52 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  All Packages
+{% endblock title %}
+
+{% block page-name %}
+  All Packages
+{% endblock page-name %}
+
+{% block body %}
+<div class="all-packages-section">
+  <div class="container">
+    <h2>All Packages</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Destination</th>
+          <th>Accommodation</th>
+          <th>Menu</th>
+          <th>Decoration</th>
+          <th>Entertainment</th>
+          <th>Extra</th>
+          <th>Total Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for package in packages %}
+        <tr>
+          <td>{{ package.id }}</td>
+          <td>{{ package.user }}</td>
+          <td>{{ package.destination.name }}</td>
+          <td>{{ package.accommodation.name }}</td>
+          <td>{{ package.menu.name }}</td>
+          <td>{{ package.decoration.name }}</td>
+          <td>{{ package.entertainment.name }}</td>
+          <td>{{ package.extra.name }}</td>
+          <td>{{ package.total_price }}</td>
+          <td>
+            <a href="{% url 'admin-edit-package' package_id=package.id %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'admin-delete-package' package_id=package.id %}" class="btn btn-danger">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock body %}

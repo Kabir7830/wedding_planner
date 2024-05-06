@@ -1,0 +1,52 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  All Dining Options
+{% endblock title %}
+
+{% block page-name %}
+  All Dining Options
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .all-dinings-wrapper {
+        max-width: 90%;
+        margin: 50px auto;
+    }
+
+    .dining-item {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .dining-item img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+</style>
+<div class="all-dinings-wrapper">
+    {% if dining_options %}
+        {% for dining in dining_options %}
+            <div class="dining-item">
+                <img src="/media/{{ dining.image }}" alt="{{ dining.name }}">
+                <h3>{{ dining.name }}</h3>
+                <p>{{ dining.description | slice:":160" | safe }}...</p>
+                <p>Price (Less than $500): ${{ dining.price_less_500 }}</p>
+                <p>Price ($500): ${{ dining.price_500 }}</p>
+                <p>Price ($1000): ${{ dining.price_1000 }}</p>
+                <p>Price ($1500): ${{ dining.price_1500 }}</p>
+                <p>Price (Over $2000): ${{ dining.price_2000_plus }}</p>
+                <p>Slug: {{ dining.slug }}</p>
+                <a href="{% url 'admin-edit-dining' dining_id=dining.id %}" class="btn btn-success">Edit</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No dining options available.</p>
+    {% endif %}
+</div>
+{% endblock body %}

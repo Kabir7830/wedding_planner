@@ -1,0 +1,85 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  All Decorations
+{% endblock title %}
+
+{% block page-name %}
+  All Decorations
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .all-decorations-wrapper {
+        max-width: 90%;
+        margin: 50px auto;
+    }
+
+    .all-decorations-wrapper table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .all-decorations-wrapper th,
+    .all-decorations-wrapper td {
+        border: 1px solid #dddddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .all-decorations-wrapper th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<div class="all-decorations-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price ($)</th>
+                <th>Slug</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for decoration in decoration_items %}
+            <tr>
+                <td>{{ decoration.id }}</td>
+                <td>{{ decoration.name }}</td>
+                <td>{{ decoration.description }}</td>
+                <td>{{ decoration.price }}</td>
+                <td>{{ decoration.slug }}</td>
+                <td><a href="{% url 'admin-edit-decoration' decoration_id=decoration.id %}" class="btn btn-success">Edit</a></td>
+                <td>
+                    <form action="{% url 'admin-delete-decoration' decoration_id=decoration.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger" type="button" onclick="confirmDecorationDelete('{{ decoration.id }}')">❌</button>
+                        <span id="id_delete_decoration_span_{{ decoration.id }}" class="hidden">
+                            Do you want to delete
+                            <button class="btn btn-danger" type="submit">Yes</button>
+                            <button class="btn btn-primary" type="button" onclick="cancelDecorationDelete('{{ decoration.id }}')">No</button>
+                        </span>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function confirmDecorationDelete(id) {
+        let span = document.getElementById(`id_delete_decoration_span_${id}`);
+        span.classList.remove('hidden');
+    }
+
+    function cancelDecorationDelete(id) {
+        let span = document.getElementById(`id_delete_decoration_span_${id}`);
+        span.classList.add('hidden');
+    }
+</script>
+{% endblock body %}

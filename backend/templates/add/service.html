@@ -1,0 +1,160 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  Add Service
+{% endblock title %}
+
+{% block page-name %}
+  Add Service
+{% endblock page-name %}
+
+{% block body %}
+<!-- <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" integrity="sha512-VCEWnpOl7PIhbYMcb64pqGZYez41C2uws/M/mDdGPy+vtEJHd9BqbShE4/VNnnZdr7YCPOjd+CBmYca/7WWWCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        tinymce.init({
+            selector: '#description',
+            plugins: 'advlist autolink lists link image charmap print preview anchor',
+            toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image'
+        });
+        tinymce.init({
+            selector: '#short_description',
+            plugins: 'advlist autolink lists link image charmap print preview anchor',
+            toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image'
+        });
+    </script>
+<style>
+    .add-product-section-43264 .container {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .add-product-section-43264 h2 {
+        text-align: center;
+    }
+    .add-product-section-43264 form {
+        margin-top: 20px;
+    }
+    .add-product-section-43264 label {
+        font-weight: bold;
+    }
+    .add-product-section-43264 input[type="text"],
+    .add-product-section-43264 input[type="number"],
+    select,
+    .add-product-section-43264 textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    .add-product-section-43264 input[type="file"] {
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+    .add-product-section-43264 .image-preview {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .add-product-section-43264 .image-preview img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    .add-product-section-43264 input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+    .add-product-section-43264 input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    .preview-container{
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .preview-container .image-preview{
+        border: solid 1px rgb(172, 172, 172);
+    }
+</style>
+<div class="add-product-section-43264">
+<div class="container">
+<h2>Service Form</h2>
+<form action="{%url 'admin-add-service'%}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="name">Service Name:</label><br>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="cost_price">Cost Price ($):</label><br>
+    <input type="text" id="cost_price" name="compare_at_price"><br>
+
+    <label for="selling_price">Selling Price ($):</label><br>
+    <input type="text" id="selling_price" name="price" required><br>
+
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" rows="8"></textarea><br>
+
+    
+    <label for="provide_name">Provider Name:</label><br>
+    <input type="text" id="id_provider_name" name="provider_name" required><br>
+    
+    <label for="provider_number">Provider Number:</label><br>
+    <input type="text" id="id-provider_number" name="provider_number" required><br>
+    
+    <label for="provider_company">Provider Company:</label><br>
+    <input type="text" id="id_provider_company" name="provider_company" required><br>
+
+    <label for="slug">Slug:</label><br>
+    <input type="text" id="id_slug" name="slug"><br>
+
+    <label for="image">Image:</label><br>
+    <input type="file" id="images" name="image" onchange="previewImages(event)" required><br>
+
+        <div class="preview-container" id="previewContainer"></div>
+
+    <label for="is_published">Publish:</label><br>
+    <select name="is_published" id="is_published">
+        <option value="True">Yes</option>
+        <option value="False">No</option>
+    </select>
+
+    <input type="submit" value="Submit">
+</form>
+</div>
+</div>
+<script>
+function previewImages(event) {
+        var previewContainer = document.getElementById('previewContainer');
+        previewContainer.innerHTML = '';
+
+        var files = event.target.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            reader.onload = function(event) {
+                var imagePreview = document.createElement('div');
+                imagePreview.className = 'image-preview';
+                var image = document.createElement('img');
+                image.src = event.target.result;
+                imagePreview.appendChild(image);
+                previewContainer.appendChild(imagePreview);
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+{% endblock body %}

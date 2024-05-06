@@ -17,7 +17,7 @@
                             <ol class="wpo-breadcumb-wrap">
                                 <li><a href="index.html">Home</a></li>
                                 <li>Service</li>
-                                <li>Service Single</li>
+                                <li>{{service.name}}</li>
                             </ol>
                         </div>
                     </div>
@@ -45,13 +45,13 @@
                                 <div class="col co-l-lg-4 col-md-4 col-sm-6 col-12">
                                     <div class="wpo-service-details-text">
                                         <span>Client Name</span>
-                                        <h2>Robert William</h2>
+                                        <h2>{{service.provider_name}}</h2>
                                     </div>
                                 </div>
                                 <div class="col co-l-lg-4 col-md-4 col-sm-6 col-12">
                                     <div class="wpo-service-details-text-3">
                                         <span>Project Value</span>
-                                        <h2>$500</h2>
+                                        <h2>${{service.price}}</h2>
                                     </div>
                                 </div>
                                 <div class="col co-l-lg-4 col-md-4 col-sm-6 col-12">
@@ -63,7 +63,8 @@
                             </div>
                         </div>
                         <div class="wpo-p-details-section">
-                            <h5>Project Requirement</h5>
+                            {{service.description | safe}}
+                            <!-- <h5>Project Requirement</h5>
                             <p>There are many variations of passages of Lorem Ipsum available, but the majority have
                                 suffered alteration in some form, by injected humour, or randomised words which don't
                                 look even slightly believable. If you are going to use a passage of Lorem Ipsum, you
@@ -131,7 +132,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p>by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet</p>
+                            <p>by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet</p> -->
                         </div>
                         <div class="wpo-faq-section">
                             <h4>Project Solution</h4>

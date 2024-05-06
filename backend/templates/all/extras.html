@@ -1,0 +1,50 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  All Extras
+{% endblock title %}
+
+{% block page-name %}
+  All Extras
+{% endblock page-name %}
+
+{% block body %}
+<div class="all-extras-wrapper">
+  <div class="container">
+    <h2>All Extras</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Price ($)</th>
+          <th>Image</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for extra in extras %}
+        <tr>
+          <td>{{ extra.id }}</td>
+          <td>{{ extra.name }}</td>
+          <td>{{ extra.description }}</td>
+          <td>{{ extra.type }}</td>
+          <td>{{ extra.price }}</td>
+          <td><img src="{{ extra.image.url }}" alt="{{ extra.name }}" class="thumbnail"></td>
+          <td><a href="{% url 'admin-edit-extra' extra_id=extra.id %}" class="btn btn-primary">Edit</a></td>
+          <td>
+            <form action="{% url 'admin-delete-extra' extra_id=extra.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock body %}

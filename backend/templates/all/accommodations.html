@@ -1,0 +1,57 @@
+{% extends "masters/admin_master.html" %}
+
+{% block title %}
+  All Accommodations
+{% endblock title %}
+
+{% block page-name %}
+  All Accommodations
+{% endblock page-name %}
+
+{% block body %}
+<style>
+    .all-accommodations-wrapper {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .all-accommodations-wrapper h2 {
+        text-align: center;
+    }
+
+    .accommodation-item {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .accommodation-item img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+</style>
+<div class="all-accommodations-wrapper">
+    <h2>All Accommodations</h2>
+    {% for accommodation in accommodations %}
+    <div class="accommodation-item">
+        <h3>{{ accommodation.name }}</h3>
+        <p><strong>Destination:</strong> {{ accommodation.destination.name }}</p>
+        <p>{{ accommodation.description | slice:":160" | safe}}...</p>
+        <img src="/media/{{ accommodation.image }}" alt="{{ accommodation.name }}">
+        <p><strong>Slug:</strong> {{ accommodation.slug }}</p>
+        <a href="{% url 'admin-edit-accommodation' accommodation_id=accommodation.id %}" class="btn btn-success">Edit</a>
+        <form action="{% url 'admin-delete-accommodation' accommodation_id=accommodation.id %}" method="post" style="display: inline-block;">
+            {% csrf_token %}
+            <button class="btn btn-outline-danger" type="submit">Delete</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endblock body %}

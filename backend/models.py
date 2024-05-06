@@ -48,7 +48,7 @@ class Accommodation(models.Model):
 
   def save(self, *args, **kwargs):
       if not self.slug:  # If slug is not set
-          self.slug = slugify(self.title)  # Generate slug from title
+          self.slug = slugify(self.name)  # Generate slug from title
       super().save(*args, **kwargs)
       
       
@@ -68,7 +68,7 @@ class Dining(models.Model):
 
   def save(self, *args, **kwargs):
       if not self.slug:  # If slug is not set
-          self.slug = slugify(self.title)  # Generate slug from title
+          self.slug = slugify(self.name)  # Generate slug from title
       super().save(*args, **kwargs)
       
       
@@ -86,7 +86,7 @@ class Destination(models.Model):
 
   def save(self, *args, **kwargs):
       if not self.slug:  # If slug is not set
-          self.slug = slugify(self.title)  # Generate slug from title
+          self.slug = slugify(self.name)  # Generate slug from title
       super().save(*args, **kwargs)
       
       
@@ -102,7 +102,7 @@ class Menu(models.Model):
 
   def save(self, *args, **kwargs):
       if not self.slug:  # If slug is not set
-          self.slug = slugify(self.title)  # Generate slug from title
+          self.slug = slugify(self.name)  # Generate slug from title
       super().save(*args, **kwargs)
       
       
@@ -118,7 +118,7 @@ class Decoration(models.Model):
 
   def save(self, *args, **kwargs):
       if not self.slug:  # If slug is not set
-          self.slug = slugify(self.title)  # Generate slug from title
+          self.slug = slugify(self.name)  # Generate slug from title
       super().save(*args, **kwargs)
       
       
@@ -134,7 +134,7 @@ class Entertainment(models.Model):
 
   def save(self, *args, **kwargs):
       if not self.slug:  # If slug is not set
-          self.slug = slugify(self.title)  # Generate slug from title
+          self.slug = slugify(self.name)  # Generate slug from title
       super().save(*args, **kwargs)
       
       
@@ -151,7 +151,7 @@ class Extra(models.Model):  # This model represents anything that can be extra
 
   def save(self, *args, **kwargs):
       if not self.slug:  # If slug is not set
-          self.slug = slugify(self.title)  # Generate slug from title
+          self.slug = slugify(self.name)  # Generate slug from title
       super().save(*args, **kwargs)
       
   class Meta:
@@ -163,13 +163,18 @@ class Package(models.Model):
       db_table = "package"
     
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    destination = models.ForeignKey(Destination,on_delete=models.CASCADE)
-    accomodation = models.ForeignKey(Accommodation,on_delete=models.CASCADE)
-    menu = models.ForeignKey(Menu,on_delete=models.CASCADE)
-    decoration = models.ForeignKey(Decoration,on_delete=models.CASCADE)
-    entertainment = models.ForeignKey(Entertainment,on_delete=models.CASCADE)
-    extra = models.ForeignKey(Extra,on_delete=models.CASCADE)
+    destination = models.ForeignKey(Destination,on_delete=models.CASCADE,null=True,blank=True)
+    accomodation = models.ForeignKey(Accommodation,on_delete=models.CASCADE,null=True,blank=True)
+    menu = models.ForeignKey(Menu,on_delete=models.CASCADE,null=True,blank=True)
+    decoration = models.ForeignKey(Decoration,on_delete=models.CASCADE,null=True,blank=True)
+    entertainment = models.ForeignKey(Entertainment,on_delete=models.CASCADE,null=True,blank=True)
+    extra = models.ForeignKey(Extra,on_delete=models.CASCADE,null=True,blank=True)
+    services = models.CharField(max_length=255,null=True,blank=True)
     total_price = models.CharField(max_length = 255)
+    image = models.ImageField(upload_to='packages/',null=True,blank=True)
+
+    def __str__(self):
+       return self.name
 
 class Booking(models.Model):
   id = models.AutoField(primary_key=True)
@@ -186,7 +191,7 @@ class ProductCategory(models.Model):
 
   def save(self, *args, **kwargs):
       if not self.slug:  # If slug is not set
-          self.slug = slugify(self.title)  # Generate slug from title
+          self.slug = slugify(self.name)  # Generate slug from title
       super().save(*args, **kwargs)
       
       
@@ -208,7 +213,7 @@ class Products(models.Model):
 
   def save(self, *args, **kwargs):
       if not self.slug:  # If slug is not set
-          self.slug = slugify(self.title)  # Generate slug from title
+          self.slug = slugify(self.name)  # Generate slug from title
       super().save(*args, **kwargs)
   
 
@@ -220,6 +225,72 @@ class Content(models.Model):
   date_added = models.CharField(max_length=100)
 
 
+class Services(models.Model):
+    class Meta:
+        db_table = "services"
+        
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    provider_name = models.CharField(max_length=255)
+    provider_company = models.CharField(max_length=255)
+    provider_number = models.CharField(max_length=10)
+    price = models.CharField(max_length=10)
+    compare_at_price = models.CharField(max_length=10,null=True,blank=True)
+    image = models.ImageField(upload_to='service_img/',null=True,blank=True)
+    is_published = models.BooleanField(default=True)
+    slug = models.SlugField(blank=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+    
+
+
+class Cart(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    items = models.ManyToManyField('Package', through='CartItem')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Cart for {self.user.username}"
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    package = models.ForeignKey('Package', on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.package.name} in {self.cart}"
+
+class CartTotal(models.Model):
+    cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"Total price of cart {self.cart}"
+    
+    
+class CustomPackage(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    destinations = models.ManyToManyField('Destination')
+    menus = models.ManyToManyField('Menu')
+    accommodations = models.ManyToManyField('Accommodation')
+    decorations = models.ManyToManyField('Decoration')
+    entertainments = models.ManyToManyField('Entertainment')
+    extras = models.ManyToManyField('Extra')
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    is_published = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.name
 class Contact(models.Model):
    
   class Meta:
