@@ -45,7 +45,7 @@
 <div class="add-package-section">
   <div class="container">
     <h2>Add Package</h2>
-    <form action="{% url 'admin-add-package' %}" method="post">
+    <form action="{% url 'admin-add-package' %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <label for="user">User:</label><br>
       <select name="user" id="user" required>
@@ -54,6 +54,9 @@
         <option value="{{ user.id }}">{{ user.email }}</option>
         {% endfor %}
       </select><br>
+
+      <label for="name">Package Name</label><br>
+      <input type="text" name="name" required><br>
 
       <label for="destination">Destination:</label><br>
       <select name="destination" id="destination" >
@@ -88,13 +91,31 @@
       </select><br>
 
       <label for="entertainment">Entertainment:</label><br>
-      <select name="entertainment" id="entertainment">
-        <option value="">-- Select Entertainment --</option>
+      
         {% for entertainment in entertainments %}
-        <option value="{{ entertainment.id }}">{{ entertainment.name }}</option>
+        <input type="checkbox" value="{{ entertainment.id }}" data-target="entertainment_values" onchange="check_entertainment()">
+        <label for="{{ entertainment.name }}">{{ entertainment.name }}</label>
+        <br>
         {% endfor %}
-      </select><br>
 
+        <input type="hidden" value="" id="id_entertainment_values" name="entertainment">
+
+        <script>
+
+          function check_entertainment(){
+            let ecb = document.querySelectorAll('input[data-target="entertainment_values"]');
+            let ev = document.getElementById('id_entertainment_values');
+            let a = new Array;
+            for (let cb of ecb){
+              if (cb.checked){
+                a.push(cb.value);
+              }
+              ev.value = a;
+              console.log(ev.value)
+            }
+          }
+
+        </script>
       <label for="extra">Extra:</label><br>
       <select name="extra" id="extra">
         <option value="">-- Select Extra --</option>

@@ -5,7 +5,14 @@
 {% endblock title %}
 
 {% load static %}
+
 {% block body%}
+<style>
+    .page.active{
+        background-color:#86a0b6 !important;
+        color:white !important;
+    }
+</style>
         <!-- start of breadcumb-section -->
         <div class="wpo-breadcumb-area">
             <div class="container">
@@ -32,8 +39,8 @@
                         <!-- start wpo-product-section -->
                         <section class="wpo-product-section">
                             <div class="sorting-section">
-                                <ul>
-                                    <li>Showing 1–10 of 32 results</li>
+                                {% comment %} <ul>
+                                    
                                     <li>
                                         <select name="sorting" id="sorting" class="select">
                                             <option value="menu_order" selected="selected">Default Sorting</option>
@@ -43,173 +50,49 @@
                                             <option value="price-desc">Sort by price: high to low</option>
                                         </select>
                                     </li>
-                                </ul>
+                                </ul> {% endcomment %}
                             </div>
+                            {% if products %}
                             <div class="wpo-product-wrap">
                                 <div class="row">
+                                    {% for product in products %}
                                     <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="wpo-product-item">
                                             <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/1.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
+                                                <img src="/media/{{product.images}}" alt="">
+                                                <form action="{% url 'add-to-cart-product' product_id=product.id%}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit">Add To Cart</button>
+                                                </form>
                                             </div>
                                             <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Wedding Gown</a></h3>
-                                                <span>$380.00</span>
+                                                <h3><a href="{% url 'single-product' slug=product.slug%}">{{product.name}}</a></h3>
+                                                <span>${{product.price}}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/2.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Bridal Flower</a></h3>
-                                                <span>$65.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/3.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Wedding Gown</a></h3>
-                                                <span>$285.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/4.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Wedding Cake</a></h3>
-                                                <span>$176.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/5.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Bride’s Crown</a></h3>
-                                                <span>$125.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/6.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Wedding Rings</a></h3>
-                                                <span>$548.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/7.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Wedding Gown</a></h3>
-                                                <span>$380.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/8.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Hair Style</a></h3>
-                                                <span>$290.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/14.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Bridal Flower</a></h3>
-                                                <span>$290.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/15.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Bridal Flower</a></h3>
-                                                <span>$290.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/16.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Bridal Flower</a></h3>
-                                                <span>$290.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="wpo-product-item">
-                                            <div class="wpo-product-img">
-                                                <img src="{% static 'images/product/17.jpg'%}" alt="">
-                                                <a href="cart.html">Add To Cart</a>
-                                            </div>
-                                            <div class="wpo-product-text">
-                                                <h3><a href="shop-single.html">Bridal Flower</a></h3>
-                                                <span>$290.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="pagination-wrapper pagination-wrapper-center">
                                 <ul class="pg-pagination">
+                                    {% for num in paginator.page_range %}
+                                    {% if num == products.number %}
                                     <li>
-                                        <a href="#" aria-label="Previous">
-                                            <i class="fi ti-angle-left"></i>
-                                        </a>
+                                        <a href="#" class="page active">{{num}}</a>
                                     </li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li>
-                                        <a href="#" aria-label="Next">
-                                            <i class="fi ti-angle-right"></i>
-                                        </a>
-                                    </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="?page={{ num }}" >{{ num }}</a>
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
                                 </ul>
                             </div>
+                            {% else %}
+                            <h2>No Products Found</h2>
+                            {% endif %}
+
                         </section>
                         <!-- end wpo-product-section -->
                     </div>
@@ -219,7 +102,7 @@
                                 <div class="search-widget">
                                     <form class="searchform">
                                         <div>
-                                            <input type="text" placeholder="Search...">
+                                            <input type="text" name="q" placeholder="Search..." {%if q %}value={{q}}{% endif%}>
                                             <button type="submit"><i class="ti-search"></i></button>
                                         </div>
                                     </form>
@@ -229,83 +112,37 @@
                                 <h3>Filter by categories</h3>
                                 <ul class="product-categories">
                                     <li class="cat-item cat-parent">
-                                        <a href="#">Accessories</a>
+                                        <a href="{% url 'shop'%}?q=dresses">Dresses</a>
                                     </li>
                                     <li class="cat-item">
-                                        <a href="#">Wedding flowers</a>
+                                        <a href="{% url 'shop'%}?q=flowers">Wedding flowers</a>
                                     </li>
                                     <li class="cat-item">
-                                        <a href="#">Invitation & Gifts</a>
+                                        <a href="{% url 'shop'%}?q=rings">Rings</a>
                                     </li>
                                     <li class="cat-item">
-                                        <a href="#">Wedding Jewlery</a>
+                                        <a href="{% url 'shop'%}?q=footwear">Footwear</a>
                                     </li>
                                     <li class="cat-item">
-                                        <a href="#">Wedding gown</a>
-                                    </li>
-                                    <li class="cat-item">
-                                        <a href="#">Makeup</a>
+                                        <a href="{% url 'shop'%}?q=cake">Cake</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="widget widget_price_filter">
-                                <h3>Filter By Price</h3>
+                                {% comment %} <h3>Filter By Price</h3>
                                 <div class="filter-price">
                                     <form>
                                         <div id="slider-range"></div>
                                         <button>filter</button>
                                         <p>Price : <input type="text" id="amount"></p>
                                     </form>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                             <div class="widget widget_best-seller">
-                                <h3>BEST SELLERS</h3>
-                                <div class="wpo-best-seller-item">
-                                    <div class="wpo-best-seller-img">
-                                        <img src="{% static 'images/best-seller/1.jpg'%}" alt="">
-                                    </div>
-                                    <div class="wpo-best-seller-text">
-                                        <h4>Wedding Shoes</h4>
-                                        <span>$220.00</span>
-                                    </div>
-                                </div>
-                                <div class="wpo-best-seller-item">
-                                    <div class="wpo-best-seller-img">
-                                        <img src="{% static 'images/best-seller/2.jpg'%}" alt="">
-                                    </div>
-                                    <div class="wpo-best-seller-text">
-                                        <h4>Wedding Gown</h4>
-                                        <span>$380.00</span>
-                                    </div>
-                                </div>
-                                <div class="wpo-best-seller-item">
-                                    <div class="wpo-best-seller-img">
-                                        <img src="{% static 'images/best-seller/3.jpg'%}" alt="">
-                                    </div>
-                                    <div class="wpo-best-seller-text">
-                                        <h4>Silver Ring</h4>
-                                        <span>$820.00</span>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class="widget wpo-instagram-widget">
-                                <div class="widget-title">
-                                    <h3>Portfolio</h3>
-                                </div>
-                                <ul class="d-flex">
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragr'%}am/1.jpg"
-                                                alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragr'%}am/2.jpg"
-                                                alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragr'%}am/3.jpg"
-                                                alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragr'%}am/4.jpg"
-                                                alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragr'%}am/5.jpg"
-                                                alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragr'%}am/6.jpg"
-                                                alt=""></a></li>
-                                </ul>
+                                
                             </div>
                         </div>
                     </div>

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-p09-@tue3t$+^#h55^&#&8cwq&eu*t9qf6fv&t3rom-^7u&*a1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -118,14 +118,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'  # Corrected to include leading slash
+# STATIC_URL = '/static/'  # Corrected to include leading slash
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Changed to 'staticfiles' for clarity and consistencyS
-MEDIA_URL = 'media/'
-MEDIA_ROOT =os.path.join(BASE_DIR,MEDIA_URL)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Changed to 'staticfiles' for clarity and consistencyS
+# MEDIA_URL = 'media/'
+# MEDIA_ROOT =os.path.join(BASE_DIR,MEDIA_URL)
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR,'static')
+
+MEDIA_ROOT =os.path.join(BASE_DIR,'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

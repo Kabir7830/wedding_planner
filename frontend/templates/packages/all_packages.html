@@ -1,0 +1,140 @@
+{% extends 'masters/index_master.html'%}
+
+{% block title %}
+    Packages
+{% endblock title %}
+
+{% block body%}
+        <!-- end of header -->
+        <!-- start wpo-page-title -->
+        <section class="wpo-page-title">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <div class="wpo-breadcumb-wrap">
+                            <h2>Packages</h2>
+                            <ol class="wpo-breadcumb-wrap">
+                                <li><a href="{% url 'homepage' %}">Home</a></li>
+                                <li>Packages</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div> <!-- end row -->
+            </div> <!-- end container -->
+        </section>
+        <!-- end page-title -->
+        <!-- start wpo-pricing-section -->
+        <section class="wpo-pricing-section section-padding">
+            <div class="container">
+                <div class="wpo-pricing-wrap">
+                    <div class="row">
+                        
+                        {% for package in packages %}
+                        <div class="col col-lg-4 col-md-6 col-12" style="margin-bottom: 150px;">
+                            <div class="wpo-pricing-item">
+                                <div class="wpo-pricing-top">
+                                    <div class="wpo-pricing-img">
+                                        <img src="/media/{{package.image}}" alt="">
+                                    </div>
+                                    <div class="wpo-pricing-text">
+                                        <h4>{{package.name}}</h4>
+                                        <h2>${{package.total_price}}<span>/Monthly</span></h2>
+                                    </div>
+                                </div>
+                                <div class="wpo-pricing-bottom">
+                                    <div class="wpo-pricing-bottom-text">
+                                        <ul>
+                                            {% if package.decoration%}
+                                            <li>Decoration Plan: {{package.decoration.name}}</li>
+                                            {% endif %}
+                                            {% if package.accommodation %}
+                                            <li>Accommodation: {{package.accommodation.name}}</li>
+                                            {% endif %}
+                                            {% if package.menu%}
+                                            <li>Menu: {{package.menu.name}}</li>
+                                            {% endif %}
+                                            {% if package.destination%}
+                                            <li>Destination: {{package.destination.name}}</li>
+                                            {% endif %}
+                                            {% if package.entertainment%}
+                                            <li>Entertainment: 
+                                                <ul style="list-style: circle;">
+                                                    {% for e in package.entertainment %}
+                                                    {% for ep in entertainments %}
+                                                    {% if ep.id == e|add:"0"%}
+                                                    <li style="width: fit-content;text-align: center;margin: auto;">{{ep.name}}</li>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            {% endif %}
+                                            {% if package.services%}
+                                            <li>Service: 
+                                                <ul style="list-style: circle;">
+                                                    {% for e in package.services %}
+                                                    {% for ep in services %}
+                                                    {% if ep.id == e|add:"0"%}
+                                                    <li style="width: fit-content;text-align: center;margin: auto;">{{ep.name}}</li>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                        <form action="{% url 'add-to-cart-package' package_id=package.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button>Add To Cart</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- start wpo-pricing-section -->
+        <!-- start wpo-partners-section -->
+        <section class="wpo-partners-section-s2">
+            <h2 class="hidden">Partners</h2>
+            <div class="container pt-0">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <div class="partner-grids partners-slider owl-carousel">
+                            <div class="grid">
+                                <img src="assets/images/partners/1.png" alt>
+                            </div>
+                            <div class="grid">
+                                <img src="assets/images/partners/2.png" alt>
+                            </div>
+                            <div class="grid">
+                                <img src="assets/images/partners/3.png" alt>
+                            </div>
+                            <div class="grid">
+                                <img src="assets/images/partners/4.png" alt>
+                            </div>
+                            <div class="grid">
+                                <img src="assets/images/partners/5.png" alt>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end container -->
+        </section>
+        <!-- end wpo-partners-section-->
+        <!-- start of wpo-site-footer-section -->
+       
+        <!-- end of wpo-site-footer-section -->
+
+    
+        
+        
+
+    </div>
+    {% endblock body%}
+  

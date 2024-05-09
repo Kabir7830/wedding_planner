@@ -187,6 +187,9 @@
     text-align: center;
 }
   </style>
+  {% block headerJS %}
+    
+  {% endblock headerJS %}
 </head>
 
 <body>
@@ -419,51 +422,17 @@
                         </li>
                     </ul>
                 </li>
+                
                 <li>
-                    <a class="show-cat-btn" href="##" data-active-url-add="#" data-active-url="#">
-                        <span class="icon paper" aria-hidden="true"></span>Company
-                        <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                    </a>
-                    <ul class="cat-sub-menu">
-                        <li>
-                            <a href="#" data-active-url="#">Add Company</a>
-                        </li>
-                        <li>
-                            <a href="#" data-active-url="#">Edit Company</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" data-active-url="#">
+                    <a href="{% url 'admin-orders'%}" data-active-url="#">
                         <span class="icon message" aria-hidden="true"></span>
                         Orders
                     </a>
                     <span class="msg-counter">{{new_orders}}</span>
                 </li>
-                <li>
-                    <a href="#" data-active-url="#">
-                        <span class="icon message" aria-hidden="true"></span>
-                        Contact Forms
-                    </a>
-                    <span class="msg-counter">{{new_contactforms}}</span>
-                </li>
-                <li>
-                    <a href="#" data-active-url="#">
-                        <span class="icon message" aria-hidden="true"></span>
-                        Reviews
-                    </a>
-                    <span class="msg-counter">{{new_reviews}}</span>
-                </li>
-                <li>
-                    <a href="#" data-active-url="#">
-                        <span class="icon message" aria-hidden="true"></span>
-                        Newsletters
-                    </a>
-                    <span class="msg-counter">{{new_newsletters}}</span>
-                </li>
+                
+                
+                
             </ul>
             <!-- <span class="system-menu__title">system</span>
             <ul class="sidebar-body-menu">

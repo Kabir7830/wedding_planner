@@ -195,9 +195,9 @@
                     <div class="col-lg-4 col-12">
                         <div class="blog-sidebar">
                             <div class="widget search-widget">
-                                <form>
+                                <form action="{% url 'all-service' %}" method="get">
                                     <div>
-                                        <input type="text" class="form-control" placeholder="Search Post..">
+                                        <input type="text" class="form-control" placeholder="Search Service.." name="q">
                                         <button type="submit"><i class="ti-search"></i></button>
                                     </div>
                                 </form>
@@ -205,26 +205,17 @@
                             <div class="widget category-widget">
                                 <h3>Services</h3>
                                 <ul>
-                                    <li><a href="service-single.html">Wedding Event <span>5</span></a></li>
-                                    <li><a href="service-single.html">Photography <span>7</span></a></li>
-                                    <li><a href="service-single.html">Album <span>3</span></a></li>
-                                    <li><a href="service-single.html">Wedding Dress<span>6</span></a></li>
-                                    <li><a href="service-single.html">Best Gift <span>2</span></a></li>
-                                    <li><a href="service-single.html">Wedding Tips <span>8</span></a></li>
+                                    <li><a href="#">Wedding Event <span>5</span></a></li>
+                                    <li><a href="#">Photography <span>7</span></a></li>
+                                    <li><a href="#">Album <span>3</span></a></li>
+                                    <li><a href="#">Wedding Dress<span>6</span></a></li>
+                                    <li><a href="#">Best Gift <span>2</span></a></li>
+                                    <li><a href="#">Wedding Tips <span>8</span></a></li>
                                 </ul>
                             </div>
                             <div class="widget wpo-instagram-widget">
-                                <div class="widget-title">
-                                    <h3>Instagram</h3>
-                                </div>
-                                <ul class="d-flex">
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragram/1.jpg'%}" alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragram/2.jpg'%}" alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragram/3.jpg'%}" alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragram/4.jpg'%}" alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragram/5.jpg'%}" alt=""></a></li>
-                                    <li><a href="portfolio-single.html"><img src="{% static 'images/instragram/6.jpg'%}" alt=""></a></li>
-                                </ul>
+                                
+                                
                             </div>
                         </div>
                     </div>

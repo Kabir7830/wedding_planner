@@ -28,156 +28,82 @@
         <!-- cart-area start -->
         <div class="cart-area section-padding">
             <div class="container">
+                {% if cart_items %}
                 <div class="form">
                     <div class="cart-wrapper">
                         <div class="row">
                             <div class="col-12">
-                                <form action="https://wpocean.com/html/tf/loveme/cart">
+                                <div>
                                     <table class="table-responsive cart-wrap">
                                         <thead>
                                             <tr>
                                                 <th class="images images-b">Image</th>
                                                 <th class="product-2">Product Name</th>
-                                                <th class="pr">Quantity</th>
                                                 <th class="ptice">Price</th>
-                                                <th class="stock">Total Price</th>
                                                 <th class="remove remove-b">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        {% for cart_item in cart_items %}
+                                            {% with parent_cart_item=cart_item %}
+                                            {% for product in cart_item.products.all %}
                                             <tr>
-                                                <td class="images"><img src="{% static 'images/cart/img-1.jpg'%}" alt=""></td>
+                                                <td class="images"><img src="/media/{{product.images}}" alt=""></td>
                                                 <td class="product">
                                                     <ul>
-                                                        <li class="first-cart"> Wedding Gown</li>
-                                                        <li>Brand : Gucci</li>
-                                                        <li>Size : XL</li>
+                                                        <li class="first-cart"> {{product.name}}</li>
+                                                        <li>Tags: {{product.tags}}</li>
                                                     </ul>
                                                 </td>
-                                                <td class="stock">
-                                                    <ul class="input-style">
-                                                        <li class="quantity cart-plus-minus">
-                                                            <input type="text" value="1" />
+                                                
+                                                <td class="ptice">$ {{product.price}}</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                        <form action="{% url 'remove-product-from-cart' product_id=product.id%}" method="post">
+                                                        {% csrf_token %}
+                                                            <button  type="submit" >
+                                                        <i class="fa fa-close"></i></button>
+                                                    </form>
                                                         </li>
                                                     </ul>
                                                 </td>
-                                                <td class="ptice">$ 250</td>
-                                                <td class="stock">$ 250</td>
-                                                <td class="action">
-                                                    <ul>
-                                                        <li class="w-btn"><a data-bs-toggle="tooltip"
-                                                                data-bs-html="true" title="Remove from Cart" href="#"><i
-                                                                    class="fi ti-trash"></i></a></li>
-                                                    </ul>
-                                                </td>
                                             </tr>
+                                            {% endfor %}
+                                            {% endwith %}
+                                            {% endfor %}
+                                        {% for cart_item in cart_items %}
+                                            {% with parent_cart_item=cart_item %}
+                                            {% for package in cart_item.packages.all %}
                                             <tr>
-                                                <td class="images"><img src="{% static 'images/cart/img-2.jpg'%}" alt=""></td>
+                                                <td class="images"><img src="/media/{{package.image}}" alt=""></td>
                                                 <td class="product">
                                                     <ul>
-                                                        <li class="first-cart">Bridal Flower</li>
-                                                        <li>Brand : Flower</li>
-                                                        <li>Size : 5 stick</li>
+                                                        <li class="first-cart"> {{package.name}}</li>
                                                     </ul>
                                                 </td>
-                                                <td class="stock">
-                                                    <ul class="input-style">
-                                                        <li class="quantity cart-plus-minus">
-                                                            <input type="text" value="1" />
+                                                
+                                                <td class="ptice">$ {{package.total_price}}</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                        <form action="{% url 'remove-package-from-cart' package_id=package.id%}" method="post">
+                                                        {% csrf_token %}
+                                                            <button  type="submit" >
+                                                        <i class="fa fa-close"></i></button>
+                                                    </form>
                                                         </li>
                                                     </ul>
                                                 </td>
-                                                <td class="ptice">$ 350</td>
-                                                <td class="stock">$ 350</td>
-                                                <td class="action">
-                                                    <ul>
-                                                        <li class="w-btn"><a data-bs-toggle="tooltip"
-                                                                data-bs-html="true" title="Remove to Cart" href="#"><i
-                                                                    class="fi ti-trash"></i></a></li>
-                                                    </ul>
-                                                </td>
                                             </tr>
-                                            <tr>
-                                                <td class="images"><img src="{% static 'images/cart/img-3.jpg'%}" alt=""></td>
-                                                <td class="product">
-                                                    <ul>
-                                                        <li class="first-cart">Bridal Shoes</li>
-                                                        <li>Brand : Nike</li>
-                                                        <li>Size : XXL</li>
-                                                    </ul>
-                                                </td>
-                                                <td class="stock">
-                                                    <ul class="input-style">
-                                                        <li class="quantity cart-plus-minus">
-                                                            <input type="text" value="1" />
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td class="ptice">$ 450</td>
-                                                <td class="stock">$ 450</td>
-                                                <td class="action">
-                                                    <ul>
-                                                        <li class="w-btn"><a data-bs-toggle="tooltip"
-                                                                data-bs-html="true" title="Remove to Cart" href="#"><i
-                                                                    class="fi ti-trash"></i></a></li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="images"><img src="{% static 'images/cart/img-4.jpg'%}" alt=""></td>
-                                                <td class="product">
-                                                    <ul>
-                                                        <li class="first-cart">Wedding Cake</li>
-                                                        <li>Brand : Bonf</li>
-                                                        <li>Size : L</li>
-                                                    </ul>
-                                                </td>
-                                                <td class="stock">
-                                                    <ul class="input-style">
-                                                        <li class="quantity cart-plus-minus">
-                                                            <input type="text" value="1" />
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td class="ptice">$ 550</td>
-                                                <td class="stock">$ 550</td>
-                                                <td class="action">
-                                                    <ul>
-                                                        <li class="w-btn"><a data-bs-toggle="tooltip"
-                                                                data-bs-html="true" title="Remove to Cart" href="#"><i
-                                                                    class="fi ti-trash"></i></a></li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="images"><img src="{% static 'images/cart/img-5.jpg'%}" alt=""></td>
-                                                <td class="product">
-                                                    <ul>
-                                                        <li class="first-cart">Wedding Rings</li>
-                                                        <li>Brand : baraka</li>
-                                                        <li>Size : M</li>
-                                                    </ul>
-                                                </td>
-                                                <td class="stock">
-                                                    <ul class="input-style">
-                                                        <li class="quantity cart-plus-minus">
-                                                            <input type="text" value="1" />
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td class="ptice">$ 550</td>
-                                                <td class="stock">$ 550</td>
-                                                <td class="action">
-                                                    <ul>
-                                                        <li class="w-btn"><a data-bs-toggle="tooltip"
-                                                                data-bs-html="true" title="Remove to Cart" href="#"><i
-                                                                    class="fi ti-trash"></i></a></li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
+                                            {% endfor %}
+                                            {% endwith %}
+                                            {% endfor %}
+                                            
+                                            
                                         </tbody>
                                     </table>
-                                </form>
+                                </div>
                                 <div class="submit-btn-area">
                                     <ul>
                                         <li><a class="theme-btn-s4" href="{% url 'shop'%}">Continue Shopping <i
@@ -187,12 +113,8 @@
                                 </div>
                                 <div class="cart-product-list">
                                     <ul>
-                                        <li>Total product<span>( 05 )</span></li>
-                                        <li>Sub Price<span>$2250</span></li>
-                                        <li>Vat<span>$50</span></li>
-                                        <li>Eco Tax<span>$100</span></li>
-                                        <li>Delivery Charge<span>$100</span></li>
-                                        <li class="cart-b">Total Price<span>$2500</span></li>
+                                        <li>Total product<span>( {{total_products_in_cart}} )</span></li>
+                                        <li class="cart-b">Total Price<span>${{total_price}}</span></li>
                                     </ul>
                                 </div>
 
@@ -206,6 +128,9 @@
                         </div>
                     </div>
                 </div>
+                {% else %}
+                <h2>Your cart is empty</h2>
+                {% endif%}
             </div>
         </div>
         <!-- cart-area end -->

@@ -1,10 +1,10 @@
 {% load static %}
-
+{% load custom_filters  %}
 <section class="wpo-pricing-section section-padding">
     <div class="container">
         <div class="row">
             <div class="wpo-section-title">
-                <span>Pricing</span>
+                <span>Packages</span>
                 <h2>Wedding Packages</h2>
                 <div class="section-title-img">
                     <img src="{% static 'images/section-title.png'%}" alt="">
@@ -13,81 +13,70 @@
         </div>
         <div class="wpo-pricing-wrap">
             <div class="row">
+            {% for package in packages|slice_range:3 %}
                 <div class="col col-lg-4 col-md-6 col-12">
                     <div class="wpo-pricing-item">
                         <div class="wpo-pricing-top">
                             <div class="wpo-pricing-img">
-                                <img src="{% static 'images/pricing/1.png'%}" alt="">
+                                <img src="/media/{{package.image}}" alt="">
                             </div>
                             <div class="wpo-pricing-text">
-                                <h4>Basic Package</h4>
-                                <h2>$250<span>/Monthly</span></h2>
+                                <h4>{{package.name}}</h4>
+                                <h2>${{package.total_price}}</h2>
                             </div>
                         </div>
                         <div class="wpo-pricing-bottom">
                             <div class="wpo-pricing-bottom-text">
                                 <ul>
-                                    <li>Stylish makeup for bride.</li>
-                                    <li>Top label arrengement</li>
-                                    <li>Amazing meal & breakfast</li>
-                                    <li>Manicure & Pedicure</li>
-                                    <li>Full body Polish</li>
+                                    {% if package.decoration%}
+                                    <li>Decoration Plan: {{package.decoration.name}}</li>
+                                    {% endif %}
+                                    {% if package.accommodation %}
+                                    <li>Accommodation: {{package.accommodation.name}}</li>
+                                    {% endif %}
+                                    {% if package.menu%}
+                                    <li>Menu: {{package.menu.name}}</li>
+                                    {% endif %}
+                                    {% if package.destination%}
+                                    <li>Destination: {{package.destination.name}}</li>
+                                    {% endif %}
+                                    {% if package.entertainment%}
+                                    <li>Entertainment: 
+                                        <ul style="list-style: circle;">
+                                            {% for e in package.entertainment %}
+                                            {% for ep in entertainments %}
+                                            {% if ep.id == e|add:"0"%}
+                                            <li style="width: fit-content;text-align: center;margin: auto;">{{ep.name}}</li>
+                                            {% endif %}
+                                            {% endfor %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endif %}
+                                    {% if package.services%}
+                                    <li>Service: 
+                                        <ul style="list-style: circle;">
+                                            {% for e in package.services %}
+                                            {% for ep in services %}
+                                            {% if ep.id == e|add:"0"%}
+                                            <li style="width: fit-content;text-align: center;margin: auto;">{{ep.name}}</li>
+                                            {% endif %}
+                                            {% endfor %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endif %}
                                 </ul>
-                                <a href="pricing.html">Choose Package</a>
+                                <form action="{% url 'add-to-cart-package' package_id=package.id %}" method="post" id="cart_package_form">
+                                    {% csrf_token %}
+                                    <button>Add To Cart</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col col-lg-4 col-md-6 col-12">
-                    <div class="wpo-pricing-item">
-                        <div class="wpo-pricing-top">
-                            <div class="wpo-pricing-img">
-                                <img src="{% static 'images/pricing/2.png'%}" alt="">
-                            </div>
-                            <div class="wpo-pricing-text">
-                                <h4>Standard Package</h4>
-                                <h2>$550<span>/Monthly</span></h2>
-                            </div>
-                        </div>
-                        <div class="wpo-pricing-bottom">
-                            <div class="wpo-pricing-bottom-text">
-                                <ul>
-                                    <li>Stylish makeup for bride.</li>
-                                    <li>Top label arrengement</li>
-                                    <li>Amazing meal & breakfast</li>
-                                    <li>Manicure & Pedicure</li>
-                                    <li>Full body Polish</li>
-                                </ul>
-                                <a href="pricing.html">Choose Package</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col col-lg-4 col-md-6 col-12">
-                    <div class="wpo-pricing-item">
-                        <div class="wpo-pricing-top">
-                            <div class="wpo-pricing-img">
-                                <img src="{% static 'images/pricing/3.png'%}" alt="">
-                            </div>
-                            <div class="wpo-pricing-text">
-                                <h4>Luxary Package</h4>
-                                <h2>$880<span>/Monthly</span></h2>
-                            </div>
-                        </div>
-                        <div class="wpo-pricing-bottom">
-                            <div class="wpo-pricing-bottom-text">
-                                <ul>
-                                    <li>Stylish makeup for bride.</li>
-                                    <li>Top label arrengement</li>
-                                    <li>Amazing meal & breakfast</li>
-                                    <li>Manicure & Pedicure</li>
-                                    <li>Full body Polish</li>
-                                </ul>
-                                <a href="pricing.html">Choose Package</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+                
             </div>
         </div>
     </div>

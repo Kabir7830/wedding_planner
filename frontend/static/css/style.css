@@ -5469,11 +5469,42 @@ static-hero-s4
   visibility: hidden;
   transition: all 0.3s;
 }
+.wpo-product-section .wpo-product-wrap .wpo-product-item .wpo-product-img button,
+.wpo-product-section-s2 .wpo-product-wrap .wpo-product-item .wpo-product-img button,
+.wpo-product-section-s3 .wpo-product-wrap .wpo-product-item .wpo-product-img button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  padding: 10px 25px;
+  border: 1px solid #86a0b6;
+  color: #86a0b6;
+  display: block;
+  width: 180px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+.wpo-product-section .wpo-product-wrap .wpo-product-item .wpo-product-img button:hover,
+.wpo-product-section-s2 .wpo-product-wrap .wpo-product-item .wpo-product-img button:hover,
+.wpo-product-section-s3 .wpo-product-wrap .wpo-product-item .wpo-product-img button:hover {
+  background: #86a0b6;
+  color: #fff;
+}
 .wpo-product-section .wpo-product-wrap .wpo-product-item .wpo-product-img a:hover,
 .wpo-product-section-s2 .wpo-product-wrap .wpo-product-item .wpo-product-img a:hover,
 .wpo-product-section-s3 .wpo-product-wrap .wpo-product-item .wpo-product-img a:hover {
   background: #86a0b6;
   color: #fff;
+}
+.wpo-product-section .wpo-product-wrap .wpo-product-item:hover .wpo-product-img button,
+.wpo-product-section-s2 .wpo-product-wrap .wpo-product-item:hover .wpo-product-img button,
+.wpo-product-section-s3 .wpo-product-wrap .wpo-product-item:hover .wpo-product-img button {
+  opacity: 1;
+  visibility: visible;
 }
 .wpo-product-section .wpo-product-wrap .wpo-product-item:hover .wpo-product-img a,
 .wpo-product-section-s2 .wpo-product-wrap .wpo-product-item:hover .wpo-product-img a,
@@ -5648,7 +5679,8 @@ static-hero-s4
   color: #7b7b7b;
   padding-bottom: 15px;
 }
-.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text a {
+.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text a,
+.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text button {
   font-size: 16px;
   color: #002642;
   font-weight: 700;
@@ -5656,8 +5688,11 @@ static-hero-s4
   margin-top: 15px;
   position: relative;
   padding-bottom: 5px;
+  border: none;
+  background-color: transparent;
 }
-.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text a:before {
+.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text a:before,
+.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text button:before {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -5667,10 +5702,12 @@ static-hero-s4
   content: "";
   transition: all 0.3s;
 }
-.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text a:hover {
+.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text a:hover,
+  .wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text button:hover {
   color: #86a0b6;
 }
-.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text a:hover:before {
+.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text a:hover:before,
+.wpo-pricing-section .wpo-pricing-wrap .wpo-pricing-item .wpo-pricing-bottom .wpo-pricing-bottom-text button:hover:before {
   background-color: #86a0b6;
 }
 .wpo-pricing-section .wpo-pricing-wrap .col:last-child .wpo-pricing-item {

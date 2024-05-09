@@ -5,64 +5,163 @@
 {% endblock title %}
 
 {% block page-name %}
-  Edit Package | {{ package.id }}
+  Edit Package | {{ package.name }}
 {% endblock page-name %}
 
 {% block body %}
+<style>
+  <style>
+    .edit-package-section {
+        max-width: 90%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-package-section h2 {
+        text-align: center;
+    }
+
+    .edit-package-section form {
+        margin-top: 20px;
+    }
+
+    .edit-package-section label {
+        font-weight: bold;
+    }
+
+    .edit-package-section input[type="text"],
+    .edit-package-section input[type="number"],
+    select,
+    .edit-package-section textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .edit-package-section input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .edit-package-section input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+</style>
 <div class="edit-package-section">
   <div class="container">
     <h2>Edit Package</h2>
-    <form action="{% url 'admin-edit-package' package_id=package.id %}" method="post">
+    <form action="{% url 'admin-edit-package' package_id=package.id %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <label for="user">User:</label><br>
       <select name="user" id="user" required>
         {% for user in users %}
-        <option value="{{ user.id }}" {% if user.id == package.user.id %} selected {% endif %}>{{ user.username }}</option>
+        <option value="{{ user.id }}" {% if user.id == package.user.id %} selected {% endif %}>{{ user.email }}</option>
         {% endfor %}
       </select><br>
 
+      <label for="name">Package Name</label><br>
+      <input type="text" name="name" value="{{package.name}}"><br>
+
       <label for="destination">Destination:</label><br>
-      <select name="destination" id="destination" required>
+      <select name="destination" id="destination">
         {% for destination in destinations %}
         <option value="{{ destination.id }}" {% if destination.id == package.destination.id %} selected {% endif %}>{{ destination.name }}</option>
         {% endfor %}
       </select><br>
 
       <label for="accommodation">Accommodation:</label><br>
-      <select name="accommodation" id="accommodation" required>
+      <select name="accommodation" id="accommodation" >
         {% for accommodation in accommodations %}
         <option value="{{ accommodation.id }}" {% if accommodation.id == package.accommodation.id %} selected {% endif %}>{{ accommodation.name }}</option>
         {% endfor %}
       </select><br>
 
       <label for="menu">Menu:</label><br>
-      <select name="menu" id="menu" required>
+      <select name="menu" id="menu" >
         {% for menu in menus %}
         <option value="{{ menu.id }}" {% if menu.id == package.menu.id %} selected {% endif %}>{{ menu.name }}</option>
         {% endfor %}
       </select><br>
 
       <label for="decoration">Decoration:</label><br>
-      <select name="decoration" id="decoration" required>
+      <select name="decoration" id="decoration" >
         {% for decoration in decorations %}
         <option value="{{ decoration.id }}" {% if decoration.id == package.decoration.id %} selected {% endif %}>{{ decoration.name }}</option>
         {% endfor %}
       </select><br>
 
       <label for="entertainment">Entertainment:</label><br>
-      <select name="entertainment" id="entertainment" required>
         {% for entertainment in entertainments %}
-        <option value="{{ entertainment.id }}" {% if entertainment.id == package.entertainment.id %} selected {% endif %}>{{ entertainment.name }}</option>
+        <input type="checkbox" data-target="entertainment_values" value="{{entertainment.id}}" {% for ent in package.entertainment %}{% if entertainment.id == ent|add:"0"%}checked{% endif %}{% endfor %} onclick="check_entertainment()">
+        <label for="{{entertainment.name}}">{{entertainment.name}}</label><br>
         {% endfor %}
-      </select><br>
+        <input type="hidden" name="entertainment" id="id_entertainment_values"> 
+        <script>
 
+          function check_entertainment(){
+            let ecb = document.querySelectorAll('input[data-target="entertainment_values"]');
+            let ev = document.getElementById('id_entertainment_values');
+            let a = new Array;
+            for (let cb of ecb){
+              if (cb.checked){
+                a.push(cb.value);
+              }
+              ev.value = a;
+              console.log(ev.value)
+            }
+          }
+
+        </script>
       <label for="extra">Extra:</label><br>
-      <select name="extra" id="extra" required>
+      <select name="extra" id="extra" >
         {% for extra in extras %}
         <option value="{{ extra.id }}" {% if extra.id == package.extra.id %} selected {% endif %}>{{ extra.name }}</option>
         {% endfor %}
       </select><br>
 
+      <label for="">Services</label>
+      <input type="hidden" name="services" id="id_services" value="{{package.services}}">
+      {% for service in services %}
+      <br>
+      <input data-target="service_input_checks" {% for se in package.services %}{% if service.id == se|add:"0"%}checked{% endif %}{% endfor %} type="checkbox" name="service{{service.id}}" id="id_service_checkbox_{{sevice.id}}" value="{{service.id}}" onchange="set_checkbox_data()">
+      <label for="{{service.name}}">{{service.name}}</label>
+      {% endfor %}
+      <script>
+        function set_checkbox_data(){
+          let checkboxes = document.querySelectorAll('input[data-target="service_input_checks"]');
+          let og_input = document.getElementById('id_services');
+          let a = new Array;
+          for (let checkbox of checkboxes){
+            if (checkbox.checked){
+              a.push(checkbox.value);
+            }
+          }
+          og_input.value = ""
+          og_input.value = a;
+          console.log(og_input.value)
+        }
+      </script>
+      <br>
+      <br>
+      <label for="image">Thumbnail</label>
+      <br>
+      <input type="file" name="image">
+      <br>
+      <br>
       <label for="total_price">Total Price:</label><br>
       <input type="text" id="total_price" name="total_price" value="{{ package.total_price }}" required><br>
 

@@ -162,12 +162,13 @@ class Package(models.Model):
     class Meta:
       db_table = "package"
     
+    name = models.CharField(max_length=255)
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     destination = models.ForeignKey(Destination,on_delete=models.CASCADE,null=True,blank=True)
     accomodation = models.ForeignKey(Accommodation,on_delete=models.CASCADE,null=True,blank=True)
     menu = models.ForeignKey(Menu,on_delete=models.CASCADE,null=True,blank=True)
     decoration = models.ForeignKey(Decoration,on_delete=models.CASCADE,null=True,blank=True)
-    entertainment = models.ForeignKey(Entertainment,on_delete=models.CASCADE,null=True,blank=True)
+    entertainment = models.CharField(max_length=255,null=True,blank=True)
     extra = models.ForeignKey(Extra,on_delete=models.CASCADE,null=True,blank=True)
     services = models.CharField(max_length=255,null=True,blank=True)
     total_price = models.CharField(max_length = 255)
@@ -249,7 +250,9 @@ class Services(models.Model):
 
 class Cart(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    items = models.ManyToManyField('Package', through='CartItem')
+    # items = models.ManyToManyField('Package', through='CartItem')
+    packages = models.ManyToManyField(Package,null=True,blank=True)
+    products = models.ManyToManyField(Products,null=True,blank=True) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -304,6 +307,22 @@ class Contact(models.Model):
   number_of_guests = models.CharField(max_length=255,blank=True,null=True)
   meal_preferences = models.CharField(max_length=255,blank=True,null=True)
    
+
+class Orders(models.Model):
+   
+   user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+   first_name = models.CharField(max_length=255)
+   last_name = models.CharField(max_length=255,null=True,blank=True)
+   country = models.CharField(max_length=255)
+   district = models.CharField(max_length=255)
+   address = models.TextField()
+   post_code = models.CharField(max_length=255)
+   email_address = models.CharField(max_length=255)
+   phone_number = models.CharField(max_length=255)
+   order_notes = models.TextField(max_length=255,null=True,blank=True)
+   payment_method = models.CharField(max_length=255,default="cash on delivery",null=True,blank=True)
+   products = models.ManyToManyField(Products,null=True,blank=True)
+   packages = models.ManyToManyField(Package,null=True,blank=True)
 
 
 

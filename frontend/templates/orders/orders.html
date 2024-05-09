@@ -1,0 +1,132 @@
+{% extends "masters/index_master.html" %}
+
+{% block title %}
+  Orders
+{% endblock title %}
+
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Orders</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom Styles */
+        .order-container {
+            margin-top: 20px;
+        }
+        .order-card {
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .order-header {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .order-details {
+            padding: 20px;
+        }
+        .product-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .product-list li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container order-container">
+        {% if orders %}
+        <h2>Your Orders</h2>
+        <!-- Loop through orders -->
+        {% for order in orders %}
+            <div class="card order-card">
+                <div class="order-header">
+                    <h5 class="card-title mb-0">Order #{{ order.id }}</h5>
+                </div>
+                <div class="order-details">
+                    <p class="card-text"><strong>Delivery Address:</strong> {{ order.address }}, {{ order.district }}, {{ order.country }}, {{ order.post_code }}</p>
+                    <p class="card-text"><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+                    {% if order.order_notes %}
+                        <p class="card-text"><strong>Order Notes:</strong> {{ order.order_notes }}</p>
+                    {% endif %}
+
+                    {% if order.products.count > 0 %}
+                    <h6>Products:</h6>
+                    <ul class="product-list">
+                        {% for product in order.products.all %}
+                          {% if order.products.count < 2 %}
+                          <li>
+                           <a href="{% url 'single-product' slug=product.slug%}">{{product.name}}</a> 
+                          </li>
+                          {% else %}
+                          {% for p in products %}
+                            <li>{{ p.name }}</li>
+                              
+                            {% endfor %}
+                          {% endif %}
+                          {% with product as products %}
+                            
+                          {% endwith %}
+                        {% endfor %}
+                        
+                        {% if  forloop.last %}
+                        {% else %}
+                            <hr>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+
+                    {% if order.packages.count > 0 %}
+                      
+                    <h6>Packages:</h6>
+                    <ul>
+                      {% for product in order.packages.all %}
+                      {% if order.products.count < 2 %}
+                      <li>
+                        <a href="{% url 'packages' %}">{{product.name}}</a>
+                      </li>
+                      {% else %}
+                      {% for p in products %}
+                      <li>{{ p.name }}</li>
+                      
+                      {% endfor %}
+                      {% endif %}
+                      {% with product as products %}
+                      
+                      {% endwith %}
+                      {% endfor %}
+                      {% if forloop.last %}
+                      {% else %}
+                        <hr>
+                    {% endif %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+            <h2 style="margin:auto;text-align:center;">Your orders will display here</h2>
+            <h3 style="margin:auto;text-align:center;margin-bottom:100px;">You do not have any orders yet.</h3>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+{% endblock body %}

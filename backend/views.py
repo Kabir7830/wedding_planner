@@ -468,7 +468,7 @@ def AddMenu(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Menu item added successfully.")
-                return redirect('admin-all-menu')
+                return redirect('admin-all-menus')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -511,7 +511,7 @@ def DeleteMenu(request, menu_id):
             except Exception as e:
                 print(e)
                 messages.error(request, f"Error: {e}")
-            return redirect('admin-all-menu')
+            return redirect('admin-all-menus')
         else:
             return redirect('404')
     else:
@@ -532,7 +532,7 @@ def AddDecoration(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Decoration item added successfully.")
-                return redirect('admin-all-decoration')
+                return redirect('admin-all-decorations')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -575,7 +575,7 @@ def DeleteDecoration(request, decoration_id):
             except Exception as e:
                 print(e)
                 messages.error(request, f"Error: {e}")
-            return redirect('admin-all-decoration')
+            return redirect('admin-all-decorations')
         else:
             return redirect('404')
     else:
@@ -596,7 +596,7 @@ def AddEntertainment(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Entertainment option added successfully.")
-                return redirect('admin-all-entertainment')
+                return redirect('admin-all-entertainments')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -639,7 +639,7 @@ def DeleteEntertainment(request, entertainment_id):
             except Exception as e:
                 print(e)
                 messages.error(request, f"Error: {e}")
-            return redirect('admin-all-entertainment')
+            return redirect('admin-all-entertainments')
         else:
             return redirect('404')
     else:
@@ -661,7 +661,7 @@ def AddExtra(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Extra item added successfully.")
-                return redirect('admin-all-extra')
+                return redirect('admin-all-extras')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -704,7 +704,7 @@ def DeleteExtra(request, extra_id):
             except Exception as e:
                 print(e)
                 messages.error(request, f"Error: {e}")
-            return redirect('admin-all-extra')
+            return redirect('admin-all-extras')
         else:
             return redirect('404')
     else:
@@ -722,11 +722,11 @@ def GetAllExtraAdmin(request):
 def AddPackage(request):
     if is_admin(request):
         if is_method_post(request):
-            form = PackageForm(request.POST)
+            form = PackageForm(request.POST,request.FILES)
             if form.is_valid():
                 form.save()
                 messages.success(request, "Package added successfully.")
-                return redirect('admin-all-package')
+                return redirect('admin-all-packages')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -741,7 +741,7 @@ def EditPackage(request, package_id):
         package = Package.objects.filter(id=package_id).first()
         if package:
             if is_method_post(request):
-                form = PackageForm(request.POST, instance=package)
+                form = PackageForm(request.POST,request.FILES, instance=package)
                 if form.is_valid():
                     form.save()
                     messages.success(request, "Package updated successfully.")
@@ -769,7 +769,7 @@ def DeletePackage(request, package_id):
             except Exception as e:
                 print(e)
                 messages.error(request, f"Error: {e}")
-            return redirect('admin-all-package')
+            return redirect('admin-all-packages')
         else:
             return redirect('404')
     else:
@@ -790,7 +790,7 @@ def AddBooking(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Booking added successfully.")
-                return redirect('admin-all-booking')
+                return redirect('admin-all-bookings')
             else:
                 messages.error(request, f"Error: {form.errors}")
                 return redirect(request.META.get('HTTP_REFERER'))
@@ -833,7 +833,7 @@ def DeleteBooking(request, booking_id):
             except Exception as e:
                 print(e)
                 messages.error(request, f"Error: {e}")
-            return redirect('admin-all-booking')
+            return redirect('admin-all-bookings')
         else:
             return redirect('404')
     else:
@@ -981,4 +981,130 @@ def delete_custom_package(request, pk):
         custom_package.delete()
         return redirect('homepage')  # Redirect to wherever appropriate
     return render(request, 'delete_custom_package.html', {'custom_package': custom_package})
+
+
+
+def Add_To_Cart_Product(request,product_id):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+
+            cart = Cart.objects.filter(user = request.user.id).first()
+            print("yes" if cart is None else "no")
+            if cart is not None:
+                cart.products.add(product_id)
+                messages.success(request,"Product Added to Cart")
+                return redirect(request.META.get('HTTP_REFERER'))
+                
+            else:
+                cart = Cart.objects.create(
+                    user_id = request.user.id,
+                )
+                cart.products.add(product_id)
+                cart.save()
+                messages.success(request,"Product Added to Cart")
+                return redirect(request.META.get('HTTP_REFERER'))
+            
+    
+    messages.error(request,"Please Login to use cart")
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def Remove_product_Form_cart(request,product_id):
+
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            cart = Cart.objects.filter(user = request.user.id).first()
+            cart.products.remove(product_id)
+            cart.save()
+            messages.success(request,"Item Removed")
+            return redirect(request.META.get('HTTP_REFERER'))
+        return redirect('404')
+    return redirect('login')
+
+def Add_To_Cart_Package(request,package_id):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+
+            cart = Cart.objects.filter(user = request.user.id)
+            if cart is None:
+                cart = Cart.objects.create(
+                    user_id = request.user.id,
+                )
+                cart.packages.add(package_id)
+                cart.save()
+                messages.success(request,"Package Added to Cart")
+                return redirect(request.META.get('HTTP_REFERER'))
+            cart.first().packages.add(package_id)
+            messages.success(request,"Package Added to Cart")
+            return redirect(request.META.get('HTTP_REFERER'))
+    
+    messages.error(request,"Please Login to use cart")
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def Remove_pAckage_From_Cart(request,package_id):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            cart = Cart.objects.filter(user = request.user.id).first()
+            cart.packages.remove(package_id)
+            cart.save()
+            messages.success(request,"Item Removed")
+            return redirect(request.META.get('HTTP_REFERER'))
+        return redirect('404')
+    return redirect('login')
+
+
+def PlaceOrder(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+
+            order = Orders.objects.create(
+                user_id = request.user.id,
+                first_name = request.POST.get('first_name'),
+                last_name = request.POST.get('last_name'),
+                country = request.POST.get('country'),
+                district = request.POST.get('district'),
+                address = request.POST.get('address'),
+                post_code = request.POST.get('post_code'),
+                email_address = request.POST.get('email_address'),
+                phone_number = request.POST.get('phone_number'),
+                order_notes = request.POST.get('order_notes'),
+                payment_method = request.POST.get('payment_method'),
+            )
+            cart = Cart.objects.filter(user = request.user.id).first()
+            for product in cart.products.all():
+                order.products.add(product.id)
+
+            for package in cart.packages.all():
+                order.packages.add(package.id)
+
+            order.save()
+            cart = Cart.objects.filter(user = request.user.id).first()
+            cart.delete()
+            cart.save()
+            messages.success(request,"Order Placed")    
+            return redirect(request.META.get('HTTP_REFERER'))
+        
+        return redirect('404')
+    messages.error(request,"Login to procede")    
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def GetUserOrders(request):
+    if not(request.user.is_authenticated):
+        messages.error(request,"logni required")
+        return redirect('login')
+    
+    orders = Orders.objects.filter(user = request.user.id)
+    return render(request,"orders/orders.html",{"orders":orders})
+
+
+def AdminGetUserOrders(request):
+    if not(request.user.is_superuser):
+        messages.error(request,"logni required")
+        return redirect('login')
+    
+    orders = Orders.objects.filter(user = request.user.id)
+    return render(request,"all/orders.html",{"orders":orders})
+    
+        
        

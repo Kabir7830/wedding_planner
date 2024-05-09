@@ -64,5 +64,14 @@ urlpatterns = [
     path("add-dining/", AddDining, name="admin-add-dining"),
     path("edit-dining/<int:dining_id>/", EditDining, name="admin-edit-dining"),
     path("delete-dining/<int:dining_id>/", DeleteDining, name="admin-delete-dining"),
+
+    path('add-to-cart/',add_to_cart,name="add-to-cart"),
+    path('add-to-cart-product/<int:product_id>/',Add_To_Cart_Product,name="add-to-cart-product"),
+    path('add-to-cart-package/<int:package_id>/',Add_To_Cart_Package,name="add-to-cart-package"),
+    path('remove-product-from-cart/<int:product_id>/',Remove_product_Form_cart,name="remove-product-from-cart"),
+    path('remove-package-from-cart/<int:package_id>/',Remove_pAckage_From_Cart,name="remove-package-from-cart"),
+
+    path('place-order/',PlaceOrder,name="place-order"),
+    path('admin-orders/',AdminGetUserOrders,name="admin-orders"),
     
 ]

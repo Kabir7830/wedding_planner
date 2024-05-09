@@ -22,10 +22,13 @@
                     <div class="wpo-product-item">
                         <div class="wpo-product-img">
                             <img src="/media/{{product.images}}" alt="">
-                            <a href="cart.html">Add To Cart</a>
+                            <form action="{% url 'add-to-cart-product' product_id=product.id%}" method="post" id="cart_product_form">
+                                {% csrf_token %}
+                                <button type="submit">Add To Cart</button>
+                            </form>
                         </div>
                         <div class="wpo-product-text">
-                            <h3><a href="shop-single.html">{{product.name}}</a></h3>
+                            <h3><a href="{% url 'single-product' slug=product.slug %}">{{product.name}}</a></h3>
                             <span class="compare_price">${{product.compare_at_price}}</span>
                             &ThickSpace;&ThickSpace;
                             <span>${{product.price}}</span>

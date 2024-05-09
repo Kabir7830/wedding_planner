@@ -1,24 +1,23 @@
-{% extends "masters/index_master.html" %}
+{% extends "masters/admin_master.html" %}
 {% block title %}
   Orders
 {% endblock title %}
 
 {% block body %}
-  {% load custom_filter %}
 <style>
-  .header-area{
+  .order-container .header-area{
     background-color: black;
   }
-.ui-w-40 {
+.order-container .ui-w-40 {
     width: 40px !important;
     height: auto;
 }
 
-.card{
+.order-container .card{
     box-shadow: 0 1px 15px 1px rgba(52,40,104,.08);    
 }
 
-.ui-product-color {
+.order-container .ui-product-color {
     display: inline-block;
     overflow: hidden;
     margin: .144em;
@@ -29,79 +28,81 @@
     box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset;
     vertical-align: middle;
 }
-.orders{
+.order-container .orders{
   margin-top:200px !important;
 }
+.order-container {
+            margin-top: 20px;
+        }
 </style>
-<div class="container px-3 my-5 clearfix orders">
-    <!-- Shopping cart table -->
-    <div class="card">
-        <div class="card-header">
-            <h2>Orders</h2>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered m-0">
-                <thead>
-                  <tr>
-                    <!-- Set columns width -->
-                    <th class="text-center py-3 px-4" style="min-width: 400px;">Details</th>
-                    <th class="text-right py-3 px-4" style="width: 100px;">Price</th>
-                    <th class="text-center py-3 px-4" style="width: 120px;">Order Date</th>
-                    <!-- <th class="text-right py-3 px-4" style="width: 100px;">Total</th> -->
-                    <!-- <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#" class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart"><i class="ino ion-md-trash"></i></a></th> -->
-                  </tr>
-                </thead>
-                <tbody>
-                {% for order in orders %} 
-                  <tr>
-                    <td class="p-4">
-                      <div class="media align-items-center">
-                        {% for product_id in order.products|eval_val%}
-                        {% for image in first_images  %}
-                        {% if image.product.id == product_id %}
-                            <img src="/media/{{image.image}}" class=" ui-w-40 ui-bordered mr-4" alt="">
-                        {%endif%}
-                        {%endfor%}
-                        {% endfor %}
-                        <div class="media-body">
-                          <p class="d-block text-dark">{{order.address.address_line_1}}</p>
-                          <p>[
-                            {% for product_id in order.products|eval_val%}
-                              {% for product in products %}
-                                {% if product.id == product_id%}
-                                  {{product.name}}
-                                  {% if not forloop.last %}
-                                    ,
-                                  {% endif %}
-                                {% endif %}
-                              {% endfor %}
+
+
+    <div class="container order-container">
+        <h2>Orders</h2>
+        <!-- Loop through orders -->
+        {% for order in orders %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Order #{{ order.id }}</h5>
+                    <p class="card-text">User: {{ order.user }}</p>
+                    <p class="card-text">Name: {{ order.first_name }} {{ order.last_name }}</p>
+                    <p class="card-text">Address: {{ order.address }}, {{ order.district }}, {{ order.country }}, {{ order.post_code }}</p>
+                    <p class="card-text">Email: {{ order.email_address }}</p>
+                    <p class="card-text">Phone: {{ order.phone_number }}</p>
+                    <p class="card-text">Payment Method: {{ order.payment_method }}</p>
+                    <p class="card-text">Order Notes: {{ order.order_notes }}</p>
+
+                    {% if order.products.count > 0 %}
+                    <h6>Products:</h6>
+                    <ul>
+                        {% for product in order.products.all %}
+                          {% if order.products.count < 2 %}
+                          <li>
+                            {{product.name}}
+                          </li>
+                          {% else %}
+                          {% for p in products %}
+                            <li>{{ p.name }}</li>
+                              
                             {% endfor %}
-                            ]
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-right font-weight-semibold align-middle p-4" style="width:200px">₹{{order.total_price}}</td>
-                    <td class="align-middle p-4" style="width: 250px;"><p>{{order.date_time}}</p></td>
-                    <!-- <td class="text-right font-weight-semibold align-middle p-4" id="id_total_{{cart.id}}"></td>
-                    <td class="text-center align-middle px-0"><a href="#" class="shop-tooltip close float-none text-danger" title="" data-original-title="Remove">×</a></td> -->
-                  </tr>
-                  <script>
-                    document.getElementById('id_total_{{cart.id}}').innerHTML =`₹${Number(document.getElementById(`id_cart_quantity_{{cart.id}}`).value) * Number(("{{cart.product.selling_price}}").match(/\d+/))};`
-                    document.getElementById(`id_cart_quantity_{{cart.id}}`).addEventListener('change',()=>{
-                        document.getElementById('id_total_{{cart.id}}').innerHTML = Number(document.getElementById(`id_cart_quantity_{{cart.id}}`).value) * Number(("{{cart.product.selling_price}}").match(/\d+/));
-                    })
-                  </script>
-                  {% endfor %}
-                  
-        
-                </tbody>
-              </table>
-            </div>
-            <!-- / Shopping cart table -->
-        
-          </div>
-      </div>
-  </div>
+                          {% endif %}
+                          {% with product as products %}
+                            
+                          {% endwith %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% if order.packages.count > 0 %}
+                      
+                    <h6>Packages:</h6>
+                    <ul>
+                      {% for product in order.packages.all %}
+                      {% if order.products.count < 2 %}
+                      <li>
+                        {{product.name}}
+                      </li>
+                      {% else %}
+                      {% for p in products %}
+                      <li>{{ p.name }}</li>
+                      
+                      {% endfor %}
+                      {% endif %}
+                      {% with product as products %}
+                      
+                      {% endwith %}
+                      {% endfor %}
+                    </ul>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endfor %}
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    {% block headerJS %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% endblock headerJS %}
+
 {% endblock body %}

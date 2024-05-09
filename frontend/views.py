@@ -4,6 +4,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from backend .models import *
+from django.db.models import Q
+from django.core.paginator import Paginator
+
 User = get_user_model()
 
 
@@ -29,11 +32,23 @@ def cart(request):
     return render(request,"cart/cart.html")
 
 def shop(request):
-    return render(request,"shop/shop.html")
+    items_per_page = 6
+
+    q = request.GET.get('q')
+    products = Products.objects.all()
+    page_number = request.GET.get('page')
+    if q:
+        products = Products.objects.filter(Q(tags__icontains = q) | Q(category__name__icontains = q) | Q(price__contains = q))
+    paginator = Paginator(products, items_per_page)
+    page_obj = paginator.get_page(page_number)
+    return render(request,"shop/shop.html",{"products":page_obj,"q":q,"page_number":page_number,"paginator":paginator})
 
 def AllServices(request):
+    q = request.GET.get('q')
     services = Services.objects.all()
-    return render(request,"services/all_services.html",{"services":services})
+    if q:
+        services = Services.objects.filter(Q(name__icontains = q) | Q(provider_company__icontains = q))
+    return render(request,"services/all_services.html",{"services":services,"q":q})
 
 def single_service(request,slug):
     service = Services.objects.filter(slug = slug).first()
@@ -116,8 +131,9 @@ def forgotPassword(request):
     return render(request,"authentication/forgot.html")
 
 
-def singleProduct(request):
-    return render(request,"shop/shop-single.html")
+def singleProduct(request,slug):
+    product = Products.objects.filter(slug = slug).first()
+    return render(request,"shop/shop-single.html",{"product":product})
 
 
 def wishlist(request):
@@ -143,7 +159,7 @@ class HandleContactForm(APIView):
             number_of_guests = data.get('number_of_guests')
             meal_preferences = data.get('meal_preferences')
             print(name,email,address,service,message)
-            if name is None or email is None or address is None or service is None:
+            if name == "" or email == "" or address == "" or service == "":
                 return Response({"message":"You must fill all the fields!","status":"error"})
             contact_form = Contact.objects.create(
                 name = name,
@@ -177,3 +193,8 @@ def singleBlog(request):
 
 def error404(request):
     return render(request,"error/404.html")
+
+
+def AllPackages(request):
+    
+    return render(request,"packages/all_packages.html")
